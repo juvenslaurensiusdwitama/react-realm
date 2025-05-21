@@ -1,7 +1,11 @@
+import Menu from "../../components/Menu"
 
 const Profile = () => {
   return (
-    <div>Profile</div>
+    <div>
+        <Menu/>
+        <h1>PROFILE</h1>
+    </div>
   )
 }
 

@@ -8,6 +8,7 @@ const Home = () => {
             style={{ backgroundImage: `url(${bg1})` }}
         >
             <Menu/>
+            HOME
         </div>
     )
 }

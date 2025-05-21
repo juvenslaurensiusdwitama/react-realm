@@ -1,7 +1,11 @@
+import Menu from "../../components/Menu"
 
 const Shop = () => {
   return (
-    <div>Shop</div>
+    <div>
+        <Menu/>
+        <h1>SHOP</h1>
+    </div>
   )
 }
 

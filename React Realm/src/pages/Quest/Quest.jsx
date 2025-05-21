@@ -1,7 +1,11 @@
+import Menu from "../../components/Menu"
 
 const Quest = () => {
   return (
-    <div>Quest</div>
+    <div>
+        <Menu/>
+        <h1>QUEST</h1>
+    </div>
   )
 }
 
