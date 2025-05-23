@@ -1,5 +1,4 @@
-import React from 'react'
-
+import arrow from '../../../assets/next-icon.png'
 const QuestList = () => {
   return (
     <div className='h-[62%] my-8 flex items-center text-[#F6F8D5]'>
@@ -14,32 +13,50 @@ const QuestList = () => {
                 <li className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] border-[#F6F8D5] border-dashed
                 hover:bg-[#7ec4ad] cursor-pointer'>
                     <div>Introduction to JSX</div>
-                    <div>Reward: Badge, Exp</div>
+                    <div className='flex items-center gap-3'>
+                        <p>Reward: Badge, Exp</p>
+                        <img src={arrow} alt="arrow" className='h-[24px]'/>
+                    </div>
                 </li>
                 <li className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] border-[#F6F8D5] border-dashed
                 hover:bg-[#7ec4ad] cursor-pointer'>
                     <div>Introduction to JSX (Quiz)</div>
-                    <div>Reward: Badge, Points, Throphy, Exp</div>
+                    <div className='flex items-center gap-3'>
+                        <p>Reward: Badge, Points, Throphy, Exp</p>
+                        <img src={arrow} alt="arrow" className='h-[24px]'/>
+                    </div>
                 </li>
                 <li className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] border-[#F6F8D5] border-dashed
                 hover:bg-[#7ec4ad] cursor-pointer'>
                     <div>What is React Components?</div>
-                    <div>Reward: Badge, Exp</div>
+                    <div className='flex items-center gap-3'>
+                        <p>Reward: Badge, Exp</p>
+                        <img src={arrow} alt="arrow" className='h-[24px]'/>
+                    </div>
                 </li>
                 <li className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] border-[#F6F8D5] border-dashed
                 hover:bg-[#7ec4ad] cursor-pointer'>
                     <div>What is React Components? (Quiz)</div>
-                    <div>Reward: Badge, Points, Throphy, Exp</div>
+                    <div className='flex items-center gap-3'>
+                        <p>Reward: Badge, Points, Throphy, Exp</p>
+                        <img src={arrow} alt="arrow" className='h-[24px]'/>
+                    </div>
                 </li>
                 <li className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] border-[#F6F8D5] border-dashed
                 hover:bg-[#7ec4ad] cursor-pointer'>
                     <div>How to use React Component?</div>
-                    <div>Reward: Badge, Exp</div>
+                    <div className='flex items-center gap-3'>
+                        <p>Reward: Badge, Exp</p>
+                        <img src={arrow} alt="arrow" className='h-[24px]'/>
+                    </div>
                 </li>
                 <li className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] border-[#F6F8D5] border-dashed
                 hover:bg-[#7ec4ad] cursor-pointer'>
                     <div>How to use React Component? (Quiz)</div>
-                    <div>Reward: Badge, Points, Throphy, Exp</div>
+                    <div className='flex items-center gap-3'>
+                        <p>Reward: Badge, Points, Throphy, Exp</p>
+                        <img src={arrow} alt="arrow" className='h-[24px]'/>
+                    </div>
                 </li>
             </ul>
         </div>
