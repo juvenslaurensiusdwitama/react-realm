@@ -1,11 +1,11 @@
-import bg1 from '../../assets/bg1.jpg'
 import Menu from '../../components/Menu'
+import bgHome from '../../assets/bg-home.jpg'
 
 const Home = () => {
     return (
         <div
             className="h-screen bg-cover bg-center"
-            style={{ backgroundImage: `url(${bg1})` }}
+            style={{ backgroundImage: `url(${bgHome})` }}
         >
             <Menu/>
             HOME

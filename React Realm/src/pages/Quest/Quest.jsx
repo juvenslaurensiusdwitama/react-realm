@@ -1,10 +1,14 @@
 import Menu from "../../components/Menu"
+import bgQuest from '../../assets/bg-quest.png'
 
 const Quest = () => {
   return (
-    <div>
-        <Menu/>
-        <h1>QUEST</h1>
+    <div
+      className="h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgQuest})` }}
+    >
+      <Menu />
+      Quest
     </div>
   )
 }

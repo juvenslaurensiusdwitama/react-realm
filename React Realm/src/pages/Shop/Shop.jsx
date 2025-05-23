@@ -1,10 +1,14 @@
 import Menu from "../../components/Menu"
+import bgShop from '../../assets/bg-shop.jpg'
 
 const Shop = () => {
   return (
-    <div>
-        <Menu/>
-        <h1>SHOP</h1>
+    <div
+      className="h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url(${bgShop})` }}
+    >
+      <Menu />
+      <h1>SHOP</h1>
     </div>
   )
 }
