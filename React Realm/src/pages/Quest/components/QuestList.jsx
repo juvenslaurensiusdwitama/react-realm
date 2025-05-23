@@ -2,7 +2,7 @@ import arrow from '../../../assets/next-icon.png'
 const QuestList = () => {
   return (
     <div className='h-[62%] my-8 flex items-center text-[#F6F8D5]'>
-        <div className='bg-[#205781] rounded-[16px] border-[4px] border-[#F6F8D5] 
+        <div className='bg-[#205781] rounded-[16px] border-[10px] border-[#F6F8D5] border-double
             min-w-[700px] flex flex-col gap-4 justify-center pt-7 pb-8 px-8
         '>
             <div>    
