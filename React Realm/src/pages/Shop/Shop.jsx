@@ -1,5 +1,6 @@
 import Menu from "../../components/Menu"
 import bgShop from '../../assets/bg-shop.jpg'
+import ShopList from "./components/ShopList"
 
 const Shop = () => {
   return (
@@ -8,7 +9,7 @@ const Shop = () => {
       style={{ backgroundImage: `url(${bgShop})` }}
     >
       <Menu />
-      <h1>SHOP</h1>
+      <ShopList />
     </div>
   )
 }
