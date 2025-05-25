@@ -51,14 +51,14 @@ const ShopList = () => {
             price: 400
         },
         {
-            name: 'Necromancer',
-            description: 'Dark summoner from underground.',
+            name: 'Ice Mage',
+            description: 'Frost caster freezing enemies solid.',
             img: necromancer,
             price: 450
         },
         {
-            name: 'Necromancer',
-            description: 'Dark summoner from underground.',
+            name: 'Ninja',
+            description: 'Agile phantom vanishing enemies.',
             img: necromancer,
             price: 500
         },
@@ -70,7 +70,7 @@ const ShopList = () => {
                 flex flex-col gap-4 w-full pt-6 pb-8 px-8 border-[2px] border-[#FED8B1]
             ">
                 <div className="flex justify-between items-center">
-                    <h1 className="text-[32px] font-medium">Shop List</h1>
+                    <h1 className="text-[32px] font-medium">Avatar Shop</h1>
                     <p className="text-[18px] font-medium bg-[#A67B5B] py-1 px-3 rounded-[6px]">100 Points</p>
                 </div>
                 <ul className="grid grid-cols-3 gap-3">
@@ -82,7 +82,11 @@ const ShopList = () => {
                                     <h1 className='text-[20px] font-semibold'>{avatar.name}</h1>
                                     <p className='text-[14px]'>{avatar.description}</p>
                                 </div>
-                                <button className='bg-[#6F4E37] text-[14px] border-[2px] border-[#FED8B1] font-bold p-2'>Buy for {avatar.price}pt</button>
+                                <button className='bg-[#6F4E37] cursor-pointer text-[14px] transition duration-200
+                                    border-[2px] border-[#FED8B1] font-bold p-2 hover:bg-[#4e392b]
+                                '>
+                                    Buy for {avatar.price}pt
+                                </button>
                             </div>
                         </li>
                     )
