@@ -8,8 +8,8 @@ const Menu = () => {
     const navigate = useNavigate();
     return (
         <div className="flex gap-5 py-10">
-            <img src={Quest} alt="Quest" className="cursor-pointer h-[60px]" onClick={() => navigate('/quest')} />
             <img src={Home} alt="Home" className="cursor-pointer h-[60px]" onClick={() => navigate('/')} />
+            <img src={Quest} alt="Quest" className="cursor-pointer h-[60px]" onClick={() => navigate('/quest')} />
             <img src={Shop} alt="Shop" className="cursor-pointer h-[60px]" onClick={() => navigate('/shop')} />
         </div>
     )
