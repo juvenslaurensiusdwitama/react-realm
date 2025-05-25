@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Home from '../assets/home.png'
 import Quest from '../assets/quest.png'
-import Profile from '../assets/profile.png'
 import Shop from '../assets/shop.png'
 
 const Menu = () => {
