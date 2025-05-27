@@ -1,30 +1,51 @@
 import arrow from '../../../assets/next-icon.png'
+import bronzeThropy from '../../../assets/bronze24.png'
+import silverThropy from '../../../assets/silver24.png'
+import goldThropy from '../../../assets/gold24.png'
 const QuestList = () => {
 
     const listQuest = [
         {
             title: 'Introduction to JSX',
-            reward: 'Reward: Badge, Exp',
+            points: null,
+            exp: 100,
+            badges: 'badge',
+            thropy: null
         },
         {
             title: 'Introduction to JSX (Quiz)',
-            reward: 'Reward: Badge, Points, Throphy, Exp',
+            points: 100,
+            exp: 100,
+            badges: 'badge',
+            thropy: bronzeThropy,
         },
         {
             title: 'What is React Components?',
-            reward: 'Reward: Badge, Exp',
+            points: null,
+            exp: 100,
+            badges: 'badge',
+            thropy: null
         },
         {
             title: 'What is React Components? (Quiz)',
-            reward: 'Reward: Badge, Points, Throphy, Exp',
+            points: 100,
+            exp: 100,
+            badges: 'badge',
+            thropy: silverThropy,
         },
         {
             title: 'How to use React Component?',
-            reward: 'Reward: Badge, Exp',
+            points: null,
+            exp: 100,
+            badges: 'badge',
+            thropy: null
         },
         {
             title: 'How to use React Component? (Quiz)',
-            reward: 'Reward: Badge, Points, Throphy, Exp',
+            points: 100,
+            exp: 100,     
+            badges: 'badge',      
+            thropy: goldThropy,
         },
     ]
 
@@ -39,12 +60,22 @@ const QuestList = () => {
                 </div>
                 <ul className='flex flex-col gap-4 font-semibold'>
                     {listQuest.map((quest, i) => (
-                        <li className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] border-[#F6F8D5] border-dashed
-                            hover:bg-[#74b6a0] cursor-pointer transition duration-200'>
-                            <div>{quest.title}</div>
-                            <div className='flex items-center gap-3'>
-                                <p>{quest.reward}</p>
-                                <img src={arrow} alt="arrow" className='h-[24px]' />
+                        <li className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] 
+                            border-[#F6F8D5] border-dashed hover:bg-[#74b6a0] cursor-pointer transition 
+                            duration-200'
+                        >
+                            <h1>{quest.title}</h1>
+                            <div className='flex items-center gap-4'>
+                                <div className='flex items-center gap-1'>
+                                    <p className={quest.points === null ? 'hidden' : null}>{quest.points}pt</p>
+                                    <p>{quest.points === null ? null : '•'}</p>
+                                    <p>{quest.exp}exp</p>
+                                    <p>•</p>
+                                    <p>{quest.badges}</p>
+                                    <p>{quest.thropy === null ? null : '•'}</p>
+                                    <img src={quest.thropy} alt="" className={quest.thropy === null ? 'hidden' : null}/>
+                                </div>
+                                <img src={arrow} alt="arrow" className='h-[24px] ' />
                             </div>
                         </li>
                     ))}
