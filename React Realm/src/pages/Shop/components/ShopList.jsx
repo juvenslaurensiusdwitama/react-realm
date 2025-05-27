@@ -6,6 +6,7 @@ import rogue from '../../../assets/rogue.png'
 import cleric from '../../../assets/cleric.png'
 import berserker from '../../../assets/berserker.png'
 import iceMage from '../../../assets/iceMage.png'
+import ninja from '../../../assets/ninja.png'
 
 const ShopList = () => {
     const listAvatar = [
@@ -48,7 +49,7 @@ const ShopList = () => {
         {
             name: 'Ninja',
             description: 'Agile phantom vanishing enemies.',
-            img: necromancer,
+            img: ninja,
             price: 400
         },
         {
@@ -72,7 +73,7 @@ const ShopList = () => {
             ">
                 <div className="flex justify-between items-center">
                     <h1 className="text-[32px] font-medium">Avatar Shop</h1>
-                    <p className="text-[18px] font-medium bg-[#A67B5B] py-1 px-3 rounded-[6px]">100 Points</p>
+                    <p className="text-[18px] font-medium bg-[#966e50] py-1 px-3 rounded-[6px]">100 Points</p>
                 </div>
                 <ul className="grid grid-cols-3 gap-3">
                     {listAvatar.map((avatar, i) => (
