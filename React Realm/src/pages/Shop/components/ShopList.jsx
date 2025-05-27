@@ -5,6 +5,7 @@ import swordsMan from '../../../assets/swordsMan.png'
 import rogue from '../../../assets/rogue.png'
 import cleric from '../../../assets/cleric.png'
 import berserker from '../../../assets/berserker.png'
+import iceMage from '../../../assets/iceMage.png'
 
 const ShopList = () => {
     const listAvatar = [
@@ -45,20 +46,20 @@ const ShopList = () => {
             price: 350
         },
         {
-            name: 'Necromancer',
-            description: 'Dark summoner from underground.',
+            name: 'Ninja',
+            description: 'Agile phantom vanishing enemies.',
             img: necromancer,
             price: 400
         },
         {
             name: 'Ice Mage',
             description: 'Frost caster freezing enemies solid.',
-            img: necromancer,
+            img: iceMage,
             price: 450
         },
         {
-            name: 'Ninja',
-            description: 'Agile phantom vanishing enemies.',
+            name: 'Necromancer',
+            description: 'Dark summoner from underground.',
             img: necromancer,
             price: 500
         },
