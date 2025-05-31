@@ -5,10 +5,12 @@ import goldThropy from '../../../assets/gold24.png'
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from '../../../config/firestore'
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const QuestList = () => {
     const [questList, setQuestList] = useState()
     const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate()
 
     const getQuestList = async() =>{
         try{
@@ -26,7 +28,6 @@ const QuestList = () => {
     useEffect(()=>{
         getQuestList()
     },[])
-    console.log(questList)
 
     return (
         <div className='my-8 flex items-center text-[#F6F8D5]'>
@@ -43,6 +44,7 @@ const QuestList = () => {
                         <li key={i} className='bg-[#4F959D] p-4 rounded-[10px] flex justify-between border-[3px] 
                             border-[#F6F8D5] border-dashed hover:bg-[#74b6a0] cursor-pointer transition 
                             duration-200 gap-14'
+                            onClick={() => navigate(quest.id)}
                         >
                             <h1>{quest.title}</h1>
                             <div className='flex items-center gap-4'>
