@@ -68,7 +68,7 @@ const QuestList = () => {
                                         : quest.badges === "Component Expert" ? componentExpert
                                         : null
                                     } alt="badges"/>
-                                    <p>{quest.thropy ? '•' : null}</p>
+                                    <p className={quest.thropy ? null : 'hidden'}>{quest.thropy ? '•' : null}</p>
                                     <img src={
                                         quest.thropy === "bronzeThropy" ? bronzeThropy 
                                         : quest.thropy === "silverThropy" ? silverThropy 
