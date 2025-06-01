@@ -55,9 +55,9 @@ const QuestList = () => {
                             <h1>{quest.title}</h1>
                             <div className='flex items-center gap-4'>
                                 <div className='flex items-center gap-1'>
-                                    <p className='text-[14px] text-[#5decff]'>{quest.points? quest.points + ' pt' : null}</p>
+                                    <p className='text-[14px] text-[#efff94]'>{quest.points? quest.points + ' pt' : null}</p>
                                     <p>{quest.points ? '•' : null}</p>
-                                    <p className='text-[14px] text-[#6bf559]'>{quest.exp} exp</p>
+                                    <p className='text-[14px] text-[#efff94]'>{quest.exp} exp</p>
                                     <p>•</p>
                                     <img src={
                                         quest.badges === "Novice Coder" ? noviceCoder 
