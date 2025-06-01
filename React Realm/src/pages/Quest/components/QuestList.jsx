@@ -38,7 +38,7 @@ const QuestList = () => {
     return (
         <div className='my-8 flex items-center text-[#F6F8D5]'>
             <div className='bg-[#205781] rounded-[16px] border-[10px] border-[#F6F8D5] border-double
-            min-w-[610px] min-h-[280px] flex flex-col gap-4 items-center pt-7 pb-8 px-8
+            min-w-[612px] min-h-[280px] flex flex-col gap-4 items-center pt-7 pb-8 px-8
         '>
                 <div className='flex flex-col items-start w-full'>
                     <h1 className='text-[32px] font-medium'>Quest List</h1>

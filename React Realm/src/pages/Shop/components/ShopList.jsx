@@ -7,78 +7,59 @@ import cleric from '../../../assets/cleric.png'
 import berserker from '../../../assets/berserker.png'
 import iceMage from '../../../assets/iceMage.png'
 import ninja from '../../../assets/ninja.png'
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { db } from '../../../config/firestore'
+import { useEffect, useState } from 'react';
 
 const ShopList = () => {
-    const listAvatar = [
-        {
-            name: 'Archer',
-            description: 'Swift hunter landing perfect shots.',
-            img: archer,
-            price: 100
-        },
-        {
-            name: 'Fire Mage',
-            description: 'Pyromancer hurling blazing orbs.',
-            img: fireMage,
-            price: 150
-        },
-        {
-            name: 'Berserker',
-            description: 'Wild berserker crushing foes.',
-            img: berserker,
-            price: 200
-        },
-        {
-            name: 'Rogue',
-            description: ' Silent assassin from the shadows.',
-            img: rogue,
-            price: 250
-        },
-        {
-            name: 'Knight',
-            description: 'Armored warrior with big sword.',
-            img: swordsMan,
-            price: 300
-        },
-        {
-            name: 'Cleric',
-            description: 'Benevolent mender radiating cure spells.',
-            img: cleric,
-            price: 350
-        },
-        {
-            name: 'Ninja',
-            description: 'Agile phantom vanishing enemies.',
-            img: ninja,
-            price: 400
-        },
-        {
-            name: 'Ice Mage',
-            description: 'Frost caster freezing enemies solid.',
-            img: iceMage,
-            price: 450
-        },
-        {
-            name: 'Necromancer',
-            description: 'Dark summoner from underground.',
-            img: necromancer,
-            price: 500
-        },
-    ]
+    const [avatarList, setAvatarList] = useState()
+    const [isLoading, setIsLoading] = useState(false)
+
+    const getAvatarList = async() =>{
+        try{
+            setIsLoading(true)
+            const q = query(collection(db, "avatarList"), orderBy("price", "asc"))
+            const querySnapshot = await getDocs(q)
+            const avatars = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+            setAvatarList(avatars)
+        }catch(err){
+            console.error(err)
+        }
+        setIsLoading(false)
+    }
+
+    useEffect(()=>{
+        getAvatarList()
+    },[])
+    
 
     return (
         <div className="my-8 flex items-center text-[#ffe6cd]">
-            <div className="bg-[#6F4E37] min-w-[750px] rounded-[12px] 
-                flex flex-col gap-4 w-full pt-6 pb-8 px-8 border-[2px] border-[#FED8B1]
+            <div className="bg-[#6F4E37] min-w-[992px] rounded-[12px] flex flex-col 
+            gap-4 w-full pt-6 pb-8 px-8 border-[2px] border-[#FED8B1]
             ">
                 <div className="flex justify-between items-center">
                     <h1 className="text-[32px] font-medium">Avatar Shop</h1>
                     <p className="text-[18px] font-medium bg-[#966e50] py-1 px-3 rounded-[6px]">100 Points</p>
                 </div>
+                <div className='w-full flex justify-center'>
+                    {isLoading ? <span className="loader mt-8"></span> : null}
+                </div>
                 <ul className="grid grid-cols-3 gap-3">
-                    {listAvatar.map((avatar, i) => (
-                        <li className="bg-[#A67B5B] w-[300px] rounded-[6px] py-2 pr-4 flex justify-center border-[2px] border-[#FED8B1]">
-                            <img src={avatar.img} alt="avatar" className='w-[150px]' />
+                    {avatarList?.map((avatar, i) => (
+                        <li key={i} className="bg-[#A67B5B] w-[300px] rounded-[6px] py-2 pr-4 flex justify-center border-[2px] border-[#FED8B1]">
+                            <img src={
+                                avatar.img === "archer" ? archer
+                                : avatar.img === "fireMage" ? fireMage 
+                                : avatar.img === "berserker" ? berserker 
+                                : avatar.img === "rogue" ? rogue 
+                                : avatar.img === "swordsMan" ? swordsMan 
+                                : avatar.img === "cleric" ? cleric 
+                                : avatar.img === "ninja" ? ninja 
+                                : avatar.img === "iceMage" ? iceMage 
+                                : avatar.img === "necromancer" ? necromancer 
+                                : null
+                            } alt="avatar" className='w-[150px]' />
                             <div className='flex flex-col justify-evenly'>
                                 <div>
                                     <h1 className='text-[20px] font-semibold'>{avatar.name}</h1>
