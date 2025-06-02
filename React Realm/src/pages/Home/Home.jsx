@@ -8,7 +8,11 @@ const Home = () => {
             style={{ backgroundImage: `url(${bgHome})` }}
         >
             <Menu/>
-            HOME
+            <div className='my-8 bg-slate-900/80 h-[630px] w-[700px] backdrop-blur-xs 
+                rounded-[8px] text-white py-4 px-6'
+            >
+                tes
+            </div>
         </div>
     )
 }
