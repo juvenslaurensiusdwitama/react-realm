@@ -30,12 +30,12 @@ const Lesson = ({ data, loading }) => {
                     </div>
                     <div></div>
                 </div>
-                <div className='flex justify-between bg-[#4F959D] 
-                min-h-[200px] rounded-b-[12px] py-3 pr-16 items-center'>
+                <div className='flex bg-[#4F959D] 
+                min-h-[200px] rounded-b-[12px] py-3 pr-[80px] items-center'>
                     <img src={gandalf} alt="" className='h-[180px]'/>
                     <div className='flex flex-col gap-3'>
                         <p className='text-[#efff94] font-semibold'>{data.contents[contentIndex]}</p>
-                        <div className='flex gap-1 justify-center'>
+                        <div className='flex gap-1 justify-end'>
                             <img src={arrow} 
                                 className={`cursor-pointer rotate-180 h-[24px] transition-all ${contentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-125'}`} 
                                 onClick={() => contentIndex > 0 && setContentIndex(contentIndex - 1)}
