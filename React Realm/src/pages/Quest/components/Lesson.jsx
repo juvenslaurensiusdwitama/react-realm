@@ -13,7 +13,8 @@ const Lesson = ({ data, loading }) => {
     console.log(data)
 
     const handleFinish = () => {
-        setIsModalOpen(true);
+        setIsModalOpen(false)
+        
     }
 
     return (
@@ -31,7 +32,7 @@ const Lesson = ({ data, loading }) => {
                             <p>Reward:</p>
                             <p className='text-[14px] text-[#efff94]'>{data.exp} exp</p>
                             <p>|</p>
-                            <BadgesValidation data={data?.badges} />
+                            <BadgesValidation data={data.badges} />
                         </div>
                     </div>
                     <div></div>
@@ -55,7 +56,7 @@ const Lesson = ({ data, loading }) => {
                                 <button
                                     className='bg-[#205781] py-1 px-4 rounded-[10px] cursor-pointer transition duration-150
                                     border-[2px] border-solid text-[#efff94] text-[14px] hover:opacity-[0.8]'
-                                    onClick={() => handleFinish()}
+                                    onClick={() => setIsModalOpen(true)}
                                 >
                                     Finish
                                 </button>
@@ -65,14 +66,20 @@ const Lesson = ({ data, loading }) => {
                 </div>
             </div>
             <Modal
-                title="tes"
+                title={data.title}
                 open={isModalOpen}
-                onOk={() => setIsModalOpen(false)}
+                onOk={() => handleFinish()}
                 onCancel={() => setIsModalOpen(false)}
                 centered
-                width={500}
+                width={450}
             >
-                <p>tes</p>
+                <p> Quest Completed ✨</p>
+                <div className='flex gap-1 items-center'>
+                    <p>Here's Your Reward: {data.exp} exp</p>
+                    <p>|</p>
+                    <BadgesValidation data={data.badges} />
+                    <p>{data.badges}</p>
+                </div>
             </Modal>
         </div>
     )
