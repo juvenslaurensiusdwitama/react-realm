@@ -1,7 +1,4 @@
 import arrow from '../../../assets/next-icon.png'
-import bronzeThropy from '../../../assets/bronze24.png'
-import silverThropy from '../../../assets/silver24.png'
-import goldThropy from '../../../assets/gold24.png'
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from '../../../config/firestore'
 import { useEffect, useState } from 'react';

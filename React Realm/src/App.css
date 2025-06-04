@@ -17,3 +17,7 @@
     transform: rotate(360deg);
   }
 } 
+
+.custom-form-gap .ant-form-item {
+  margin-bottom: 10px; 
+}

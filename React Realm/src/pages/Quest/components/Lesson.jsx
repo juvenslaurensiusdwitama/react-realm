@@ -14,7 +14,6 @@ const Lesson = ({ data, loading }) => {
 
     const handleFinish = () => {
         setIsModalOpen(false)
-        
     }
 
     return (
