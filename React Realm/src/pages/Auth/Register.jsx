@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Modal } from 'antd'
 import bgAuth from '../../assets/bg-auth.jpg'
 import { useNavigate } from 'react-router-dom'
 import { collection, addDoc } from "firebase/firestore";
@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 
 const Register = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate()
 
     const handleRegister = async (values) => {
@@ -25,13 +26,14 @@ const Register = () => {
             console.error(err)
         } finally {
             setIsLoading(false)
-            navigate('/login')
+            setIsModalOpen(true)
         }
     }
 
     useEffect(() => {
 
     }, [])
+    
     return (
         <div
             className='h-screen bg-cover bg-center flex flex-col justify-center items-center'
@@ -104,6 +106,15 @@ const Register = () => {
                             ]}>
                             <Input.Password placeholder="Password" required />
                         </Form.Item>
+                        <p className='text-white flex gap-2'>
+                            <span>Already have an account?</span>
+                            <span
+                                className='underline cursor-pointer'
+                                onClick={() => navigate('/login')}
+                            >
+                                Login page
+                            </span>
+                        </p>
                         <Form.Item>
                             <Button
                                 block type='primary' htmlType='submit'
@@ -120,6 +131,16 @@ const Register = () => {
                     </Form>
                 </div>
             </div>
+            <Modal
+                title={<p> Register Success ✅</p>}
+                open={isModalOpen}
+                onOk={() => navigate('/login')}
+                onCancel={() => setIsModalOpen(false)}
+                centered
+                width={450}
+            >
+                <p>You have registered successfully!</p>
+            </Modal>
         </div>
     )
 }
