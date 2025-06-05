@@ -1,13 +1,37 @@
 import Menu from '../../components/Menu'
 import bgHome from '../../assets/bg-home.jpg'
+import { getFirestore, doc, getDoc, collection } from "firebase/firestore";
+import { useEffect, useState } from 'react';
 
 const Home = () => {
+    const id = sessionStorage.getItem('id')
+    const db = getFirestore();
+    const [userDetail, setUserDetail] = useState()
+    const [isLoading, setIsLoading] = useState(false)
+
+    const getUserById = async () => {
+        try {
+            setIsLoading(true)
+            const q = doc(collection(db, "users"), id);
+            const userData = await getDoc(q);
+            if (userData.exists()) setUserDetail(userData.data())
+            console.log(userData.data())
+        } catch (err) {
+            console.error(err)
+        }
+        setIsLoading(false)
+    }
+
+    useEffect(() => {
+        getUserById()
+    }, [])
+
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center"
             style={{ backgroundImage: `url(${bgHome})` }}
         >
-            <Menu/>
+            <Menu />
             <div className='my-8 bg-slate-900/80 h-[620px] w-[600px] backdrop-blur-xs 
                 rounded-[8px] text-white py-4 px-6 flex flex-col justify-between'
             >
