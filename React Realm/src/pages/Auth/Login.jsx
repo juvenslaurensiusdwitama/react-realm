@@ -16,6 +16,7 @@ const Login = () => {
             setIsLoading(true)
             const querySnapshot = await getDocs(collection(db, "users"))
             const datas = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+            console.log(datas)
             datas.forEach((data)=>{
                 if(username === data.username && password === data.password){
                     console.log(`input: ${username} & ${password}`)
