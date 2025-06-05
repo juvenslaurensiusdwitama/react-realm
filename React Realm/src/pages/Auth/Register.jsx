@@ -23,10 +23,10 @@ const Register = () => {
                     <h1 className='text-[26px] font-semibold'>Register</h1>
                     <Form layout='vertical' className="custom-form-gap">
                         <Form.Item label={<span style={{ color: "#ffff" }}>Username</span>} name="username">
-                            <Input placeholder="Username" />
+                            <Input placeholder="Username" required/>
                         </Form.Item>
                         <Form.Item label={<span style={{ color: "#ffff" }}>Password</span>} name="password">
-                            <Input.Password placeholder="Password" />
+                            <Input.Password placeholder="Password" required/>
                         </Form.Item>
                         <Form.Item>
                             <Button 
