@@ -19,7 +19,7 @@ const Login = () => {
             const querySnapshot = await getDocs(collection(db, "users"))
             const datas = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
             console.log(datas)
-            datas.forEach((data) => {
+            datas.forEach((data, i) => {
                 if (username === data.username && password === data.password) {
                     console.log(`input: ${username} & ${password}`)
                     console.log(`API DATA: ${data.username} & ${data.password}`)
@@ -27,15 +27,13 @@ const Login = () => {
                     sessionStorage.setItem('isLogin', true)
                     sessionStorage.setItem('id', data.id)
                     setIsLoginSuccess(true)
-                }
-            })
-            datas.forEach((data, i) => {
-                if (username !== data.username && password !== data.password && i === datas.length - 1) {
-                    console.log(`input: ${username} & ${password}`)
-                    console.log(`API DATA: ${data.username} & ${data.password}`)
-                    console.log('login failed')
-                    setIsLoginFailed(true)
-                }
+                } 
+                // else if (username !== data.username && password !== data.password && i === datas.length - 1) {
+                //     console.log(`input: ${username} & ${password}`)
+                //     console.log(`API DATA: ${data.username} & ${data.password}`)
+                //     console.log('login failed')
+                //     setIsLoginFailed(true)
+                // }
             })
         } catch (err) {
             console.error(err)
