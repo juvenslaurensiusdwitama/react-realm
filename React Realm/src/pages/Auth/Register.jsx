@@ -20,7 +20,7 @@ const Register = () => {
                 "exp": 0,
                 "badges": [""],
                 "thropy": [""],
-                "avatars": [""],
+                "avatars": ["archer"],
             });
         } catch (err) {
             console.error(err)
