@@ -37,10 +37,10 @@ const Home = () => {
         >
             <Menu />
             <div className='my-8 bg-slate-900/80 backdrop-blur-xs 
-                text-white p-6 flex flex-col gap-4'
+                text-white p-6 flex flex-col gap-2'
             >
                 <div className='flex justify-between items-start'>
-                    <div className='min-w-[215px] flex flex-col bg-slate-500/40 py-2 px-4'>
+                    <div className='min-w-[292px] flex flex-col bg-slate-500/40 py-2 px-4'>
                         <h1 className='text-[16px] font-semibold'>{userDetail?.username}</h1>
                         <div className='flex justify-between text-[14px]'>
                             <p>Level 10</p>
@@ -55,7 +55,7 @@ const Home = () => {
                                 },
                             }}
                         >
-                            <Flex vertical gap="small" style={{ width: 180 }}>
+                            <Flex vertical gap="small" style={{ width: '100%' }}>
                                 <Progress percent={30} size="small" status="active" />
                             </Flex>
                         </ConfigProvider>
@@ -71,28 +71,36 @@ const Home = () => {
                                 )}
                             </div>
                         </div>
+                        <div className='flex justify-end'>
+                            <p className='px-1 text-end text-[14px]'>{userDetail?.points} Points</p>
+                        </div>
                     </div>
                     <div className='flex flex-col items-end gap-2'>
-                        <p className='bg-slate-500/40 px-1 rounded-[4px] font-semibold'>{userDetail?.points} Points</p>
                         <div className='flex flex-col items-end'>
                             <p className='font-semibold text-[14px]'>Acquired Title</p>
-                            {userDetail?.badges.map((badge)=>
-                                <p className='text-[12px] underline underline-offset-2'>{badge}</p>
-                            )}
+                            {userDetail?.badges.map((badge) => 
+                                <p className='text-[12px] underline underline-offset-2'>{badge === "Novice Coder" ? "Novice Coder"
+                                    : badge === "React Enthusiast" ? "React Enthusiast"
+                                        : badge === "JSX Debugger" ? "JSX Debugger"
+                                            : badge === "JSX Architect" ? "JSX Architect"
+                                                : badge === "Component Master" ? "Component Master"
+                                                    : badge === "Component Expert" ? "Component Expert"
+                                                        : "No acquired title"}</p>
+                                )}
                         </div>
                     </div>
                 </div>
                 <div className='w-full flex justify-between'>
-                    <div className='grid grid-cols-3 gap-2 min-w-[215px]'>
-                        {userDetail?.avatars.map((avatar)=>
-                            <div className='bg-slate-500/40 h-[72px]'>
-                                <AvatarValidation className='w-[70px]' data={avatar}/>
+                    <div className='grid grid-cols-3 gap-2 items-start'>
+                        {userDetail?.avatars.map((avatar) =>
+                            <div className='bg-slate-500/40'>
+                                <AvatarValidation className='w-[92px] p-1' data={avatar} />
                             </div>
                         )}
                     </div>
                     <div className='flex flex-col justify-center items-center'>
-                        <AvatarValidation className='w-[200px]' data={userDetail?.activeAvatar}/>
-                        <button 
+                        <AvatarValidation className='w-[200px]' data={userDetail?.activeAvatar} />
+                        <button
                             className='bg-slate-500/40 px-6 py-1 font-semibold 
                             transition duration-100 cursor-pointer hover:opacity-[0.6]'
                         >
