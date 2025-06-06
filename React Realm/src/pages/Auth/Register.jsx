@@ -53,7 +53,7 @@ const Register = () => {
                             rules={[
                                 { required: true, message: 'Please input your username!' },
                                 { min: 3, message: 'Username must be at least 3 characters' },
-                                { max: 20, message: 'Username must be at most 20 characters' },
+                                { max: 20, message: 'Max 20 characters' },
                                 {
                                     pattern: /^[a-zA-Z0-9]+$/,
                                     message: 'Username can only contain letters and numbers (no special characters)',
@@ -82,7 +82,7 @@ const Register = () => {
                             rules={[
                                 { required: true, message: 'Please input your password!' },
                                 { min: 3, message: 'Password must be at least 3 characters' },
-                                { max: 20, message: 'Password must be at most 20 characters' },
+                                { max: 20, message: 'Max 20 characters' },
                                 {
                                     pattern: /^[a-zA-Z0-9]+$/,
                                     message: 'Password can only contain letters and numbers (no special characters)',
