@@ -6,8 +6,9 @@ import { db } from '../../config/firestore'
 import { useEffect, useState } from 'react';
 
 const Login = () => {
-    const [username, setUsername] = useState()
-    const [password, setPassword] = useState()
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [userData, setUserData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [isLoginSuccess, setIsLoginSuccess] = useState(false);
     const [isLoginFailed, setIsLoginFailed] = useState(false);
@@ -18,23 +19,7 @@ const Login = () => {
             setIsLoading(true)
             const querySnapshot = await getDocs(collection(db, "users"))
             const datas = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-            console.log(datas)
-            datas.forEach((data, i) => {
-                if (username === data.username && password === data.password) {
-                    console.log(`input: ${username} & ${password}`)
-                    console.log(`API DATA: ${data.username} & ${data.password}`)
-                    console.log('login success')
-                    sessionStorage.setItem('isLogin', true)
-                    sessionStorage.setItem('id', data.id)
-                    setIsLoginSuccess(true)
-                } 
-                // else if (username !== data.username && password !== data.password && i === datas.length - 1) {
-                //     console.log(`input: ${username} & ${password}`)
-                //     console.log(`API DATA: ${data.username} & ${data.password}`)
-                //     console.log('login failed')
-                //     setIsLoginFailed(true)
-                // }
-            })
+            setUserData(datas)
         } catch (err) {
             console.error(err)
         } finally {
@@ -42,8 +27,25 @@ const Login = () => {
         }
     }
 
-    useEffect(() => {
+    const handleFinish = () => {
+        let isMatchFound = false;
+        userData.forEach((data) => {
+            if (username === data.username && password === data.password) {
+                sessionStorage.setItem('isLogin', true)
+                sessionStorage.setItem('id', data.id)
+                isMatchFound = true;
+                setIsLoginSuccess(true)
+            }
+        })
+        userData.forEach(() => {
+            if (!isMatchFound) {
+                setIsLoginFailed(true)
+            }
+        })
+    }
 
+    useEffect(() => {
+        getUserData()
     }, [])
 
     return (
@@ -66,7 +68,7 @@ const Login = () => {
                         :
                         <>
                             <h1 className='text-[26px] font-semibold'>Login</h1>
-                            <Form layout='vertical' className="custom-form-gap" onFinish={getUserData}>
+                            <Form layout='vertical' className="custom-form-gap" onFinish={handleFinish}>
                                 <Form.Item label={<span style={{ color: "#ffff" }}>Username</span>} name="username">
                                     <Input placeholder="Username" required onChange={(e) => setUsername(e.target.value)} />
                                 </Form.Item>
