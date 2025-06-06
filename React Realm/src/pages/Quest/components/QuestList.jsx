@@ -52,9 +52,9 @@ const QuestList = () => {
                                     <p>{quest.points ? '•' : null}</p>
                                     <p className='text-[14px] text-[#efff94]'>{quest.exp} exp</p>
                                     <p>•</p>
-                                    <BadgesValidation data={quest.badges}/>
+                                    <BadgesValidation className={quest.badges ? null : 'hidden'} data={quest.badges}/>
                                     <p className={quest.thropy ? null : 'hidden'}>{quest.thropy ? '•' : null}</p>
-                                    <ThropyValidation data={quest.thropy}/>
+                                    <ThropyValidation className={quest.thropy ? null : 'hidden'} data={quest.thropy}/>
                                 </div>
                                 <img src={arrow} alt="arrow" className='h-[18px] ' />
                             </div>
