@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { ConfigProvider, Flex, Progress } from 'antd';
 import BadgesValidation from '../../components/BadgesValidation';
 import ThropyValidation from '../../components/ThropyValidation';
+import AvatarValidation from '../../components/AvatarValidation';
 
 const Home = () => {
     const id = sessionStorage.getItem('id')
@@ -35,11 +36,11 @@ const Home = () => {
             style={{ backgroundImage: `url(${bgHome})` }}
         >
             <Menu />
-            <div className='my-8 bg-slate-900/80 h-[620px] w-[600px] backdrop-blur-xs 
-                rounded-[8px] text-white p-4 flex flex-col justify-between'
+            <div className='my-8 bg-slate-900/80 backdrop-blur-xs 
+                text-white p-6 flex flex-col gap-4'
             >
                 <div className='flex justify-between items-start'>
-                    <div className='flex flex-col bg-slate-500/40 rounded-[8px] py-2 px-4'>
+                    <div className='min-w-[215px] flex flex-col bg-slate-500/40 py-2 px-4'>
                         <h1 className='text-[16px] font-semibold'>{userDetail?.username}</h1>
                         <div className='flex justify-between text-[14px]'>
                             <p>Level 10</p>
@@ -58,7 +59,7 @@ const Home = () => {
                                 <Progress percent={30} size="small" status="active" />
                             </Flex>
                         </ConfigProvider>
-                        <div className='flex flex-col gap-1 bg-slate-500/40 px-1 py-1 rounded-[4px] my-1'>
+                        <div className='flex flex-col gap-1 bg-slate-500/40 px-1 py-1 my-1'>
                             <div className='flex items-center gap-1'>
                                 {userDetail?.badges.map((badge) =>
                                     <BadgesValidation data={badge} />
@@ -71,13 +72,34 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-                    <p className='bg-slate-500/40 px-1 rounded-[4px]'>{userDetail?.points} Points</p>
+                    <div className='flex flex-col items-end gap-2'>
+                        <p className='bg-slate-500/40 px-1 rounded-[4px] font-semibold'>{userDetail?.points} Points</p>
+                        <div className='flex flex-col items-end'>
+                            <p className='font-semibold text-[14px]'>Acquired Title</p>
+                            {userDetail?.badges.map((badge)=>
+                                <p className='text-[12px] underline underline-offset-2'>{badge}</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
-                <div className='w-full flex justify-around'>
-                    <p>char</p>
-                    <p>char</p>
+                <div className='w-full flex justify-between'>
+                    <div className='grid grid-cols-3 gap-2 min-w-[215px]'>
+                        {userDetail?.avatars.map((avatar)=>
+                            <div className='bg-slate-500/40 h-[72px]'>
+                                <AvatarValidation className='w-[70px]' data={avatar}/>
+                            </div>
+                        )}
+                    </div>
+                    <div className='flex flex-col justify-center items-center'>
+                        <AvatarValidation className='w-[200px]' data={userDetail?.activeAvatar}/>
+                        <button 
+                            className='bg-slate-500/40 px-6 py-1 font-semibold 
+                            transition duration-100 cursor-pointer hover:opacity-[0.6]'
+                        >
+                            Select
+                        </button>
+                    </div>
                 </div>
-                <div>tes</div>
             </div>
         </div>
     )

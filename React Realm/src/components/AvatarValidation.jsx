@@ -9,20 +9,24 @@ import iceMage from '../assets/iceMage.png'
 import ninja from '../assets/ninja.png'
 
 const AvatarValidation = ({className, data}) => {
-    return (
-        <img src={
-            data === "archer" ? archer
-                : data === "fireMage" ? fireMage
-                    : data === "berserker" ? berserker
-                        : data === "rogue" ? rogue
-                            : data === "swordsMan" ? swordsMan
-                                : data === "cleric" ? cleric
-                                    : data === "ninja" ? ninja
-                                        : data === "iceMage" ? iceMage
-                                            : data === "necromancer" ? necromancer
-                                                : null
-        } alt="avatar" className={className} />
-    )
+    if(data){
+        return (
+            <img src={
+                data === "archer" ? archer
+                    : data === "fireMage" ? fireMage
+                        : data === "berserker" ? berserker
+                            : data === "rogue" ? rogue
+                                : data === "swordsMan" ? swordsMan
+                                    : data === "cleric" ? cleric
+                                        : data === "ninja" ? ninja
+                                            : data === "iceMage" ? iceMage
+                                                : data === "necromancer" ? necromancer
+                                                    : null
+            } alt="avatar" className={className} />
+        )
+    }else{
+        return <p className={`text-[12px] w-full text-center ${className}`}>No avatar</p>
+    }
 }
 
 export default AvatarValidation
