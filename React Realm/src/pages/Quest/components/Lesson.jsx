@@ -4,18 +4,53 @@ import gandalf from '../../../assets/gandalf.png'
 import arrow from '../../../assets/arrow-pixel.png'
 import BadgesValidation from '../../../components/BadgesValidation';
 import { Modal } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { updateDoc, getDoc, doc, setDoc, collection } from "firebase/firestore";
+import { db } from '../../../config/firestore';
 
 const Lesson = ({ data, loading }) => {
+    const id = sessionStorage.getItem('id')
     const [contentIndex, setContentIndex] = useState(0)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userDetail, setUserDetail] = useState()
+    const [isLoading, setIsLoading] = useState(false)
     if (loading) return <div>Loading...</div>;
-    console.log(data)
 
-    const handleFinish = () => {
-        setIsModalOpen(false)
+    const getUserById = async () => {
+        try {
+            setIsLoading(true)
+            const q = doc(collection(db, "users"), id);
+            const userData = await getDoc(q);
+            if (userData.exists()) setUserDetail(userData.data())
+        } catch (err) {
+            console.error(err)
+        }
+        setIsLoading(false)
     }
 
+    const handleFinish = async () => {
+        try {
+            setIsLoading(true)
+            const newBadges = userDetail?.badges.includes(data.badges) ? userDetail?.badges : [...userDetail?.badges, data.badges]
+            await setDoc(doc(db, "users", id), {
+                ...userDetail, 
+                badges: newBadges,
+                exp: userDetail.exp + data.exp
+            })
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsLoading(false)
+            setIsModalOpen(false)
+        }
+    }
+
+    useEffect(() => {
+        getUserById()
+    }, [])
+
+    console.log(userDetail?.badges)
+    console.log(data.badges)
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center"
