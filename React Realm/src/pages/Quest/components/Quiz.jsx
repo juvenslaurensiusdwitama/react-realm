@@ -1,8 +1,9 @@
 import bgQuest from '../../../assets/bg-quest.png'
+import BadgesValidation from '../../../components/BadgesValidation';
 import Menu from '../../../components/Menu';
 
-const Quiz = ({ data, loading }) => {
-    if (loading) return <div>Loading...</div>;
+const Quiz = ({ data }) => {
+
     console.log(data)
     return (
         <div
@@ -10,7 +11,21 @@ const Quiz = ({ data, loading }) => {
             style={{ backgroundImage: `url(${bgQuest})` }}
         >
             <Menu />
-            <h1>{data?.type}</h1>
+            <div className='flex flex-col my-8 py-3 px-4 rounded-[16px] text-[#F6F8D5]
+                border-[4px] border-[#F6F8D5] border-solid w-[750px] bg-[#205781] h-[500px]'
+            >
+                <div className='flex justify-between text-[14px] font-semibold'>
+                    <h1>{data.title}</h1>
+                    <div className='flex gap-1'>
+                        <p>Reward:</p>
+                        <p className='text-[14px] text-[#efff94]'>{data.exp} exp</p>
+                        <p>|</p>
+                        <BadgesValidation data={data.badges} />
+                    </div>
+                </div>
+                <div>question</div>
+                <div>answer</div>
+            </div>
         </div>
     )
 }
