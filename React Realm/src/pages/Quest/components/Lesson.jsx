@@ -3,18 +3,19 @@ import bgQuest from '../../../assets/bg-quest.png'
 import gandalf from '../../../assets/gandalf.png'
 import arrow from '../../../assets/arrow-pixel.png'
 import BadgesValidation from '../../../components/BadgesValidation';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
-import { updateDoc, getDoc, doc, setDoc, collection } from "firebase/firestore";
+import { getDoc, doc, setDoc, collection } from "firebase/firestore";
 import { db } from '../../../config/firestore';
+import { useNavigate } from 'react-router-dom';
 
-const Lesson = ({ data, loading }) => {
+const Lesson = ({ data }) => {
     const id = sessionStorage.getItem('id')
     const [contentIndex, setContentIndex] = useState(0)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [userDetail, setUserDetail] = useState()
     const [isLoading, setIsLoading] = useState(false)
-    if (loading) return <div>Loading...</div>;
+    const navigate = useNavigate()
 
     const getUserById = async () => {
         try {
@@ -33,7 +34,7 @@ const Lesson = ({ data, loading }) => {
             setIsLoading(true)
             const newBadges = userDetail?.badges.includes(data.badges) ? userDetail?.badges : [...userDetail?.badges, data.badges]
             await setDoc(doc(db, "users", id), {
-                ...userDetail, 
+                ...userDetail,
                 badges: newBadges,
                 exp: userDetail.exp + data.exp
             })
@@ -42,6 +43,7 @@ const Lesson = ({ data, loading }) => {
         } finally {
             setIsLoading(false)
             setIsModalOpen(false)
+            navigate('/quest')
         }
     }
 
@@ -50,7 +52,7 @@ const Lesson = ({ data, loading }) => {
     }, [])
 
     console.log(userDetail?.badges)
-    console.log(data.badges)
+
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center"
@@ -58,7 +60,8 @@ const Lesson = ({ data, loading }) => {
         >
             <Menu />
             <div className='flex flex-col my-8 rounded-[16px] border-[4px] border-[#F6F8D5] 
-                border-solid w-[750px]'>
+                border-solid w-[750px]'
+            >
                 <div className='bg-[#205781] min-h-[370px] rounded-t-[12px] py-3 px-4'>
                     <div className='flex justify-between text-[14px] text-[#F6F8D5] font-semibold'>
                         <h1>{data.title}</h1>
@@ -69,7 +72,7 @@ const Lesson = ({ data, loading }) => {
                             <BadgesValidation data={data.badges} />
                         </div>
                     </div>
-                    <div></div>
+                    <div>tes</div>
                 </div>
                 <div className='flex bg-[#4F959D] 
                 min-h-[200px] rounded-b-[12px] py-3 pr-[80px] items-center'>
@@ -102,10 +105,19 @@ const Lesson = ({ data, loading }) => {
             <Modal
                 title={data.title}
                 open={isModalOpen}
-                onOk={() => handleFinish()}
                 onCancel={() => setIsModalOpen(false)}
                 centered
                 width={450}
+                footer={
+                    isLoading ?
+                        <Button type="primary" loading iconPosition={'end'}>
+                            Loading
+                        </Button>
+                        :
+                        <Button type='primary' onClick={() => handleFinish()}>
+                            Claim Reward
+                        </Button>
+                }
             >
                 <p> Quest Completed ✨</p>
                 <div className='flex gap-1 items-center'>

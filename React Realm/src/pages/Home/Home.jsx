@@ -36,7 +36,7 @@ const Home = () => {
             style={{ backgroundImage: `url(${bgHome})` }}
         >
             <Menu />
-            <div className='my-8 bg-slate-900/80 backdrop-blur-xs 
+            <div className='my-20 bg-slate-900/80 backdrop-blur-xs 
                 text-white p-6 flex flex-col gap-2 min-h-[400px] min-w-[450px]'
             >
                 {isLoading ?
