@@ -31,9 +31,10 @@ const Lesson = ({ data, loading }) => {
     const handleFinish = async () => {
         try {
             setIsLoading(true)
+            const newBadges = userDetail?.badges.includes(data.badges) ? userDetail?.badges : [...userDetail?.badges, data.badges]
             await setDoc(doc(db, "users", id), {
                 ...userDetail, 
-                badges: [data.badges],
+                badges: newBadges,
                 exp: userDetail.exp + data.exp
             })
         } catch (err) {
