@@ -85,7 +85,7 @@ const Quiz = ({ data }) => {
                         )}
                     </div>
                 </div>
-                <div className='flex justify-end items-center gap-4 mt-2'>
+                <div className='flex justify-end items-center gap-4 my-2'>
                     <div className='flex gap-1'>
                         <img src={arrow}
                             className={`cursor-pointer rotate-180 h-[24px] transition-all ${contentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:brightness-125'}`}
