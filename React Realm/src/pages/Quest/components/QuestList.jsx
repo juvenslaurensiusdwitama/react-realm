@@ -1,5 +1,5 @@
 import arrow from '../../../assets/next-icon.png'
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, getDoc, doc } from "firebase/firestore";
 import { db } from '../../../config/firestore'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,27 +7,42 @@ import BadgesValidation from '../../../components/BadgesValidation'
 import ThropyValidation from '../../../components/ThropyValidation';
 
 const QuestList = () => {
+    const id = sessionStorage.getItem('id')
+    const [userDetail, setUserDetail] = useState()
     const [questList, setQuestList] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
-    const getQuestList = async() =>{
-        try{
+    const getUserById = async () => {
+        try {
             setIsLoading(true)
-            const q = query(collection(db, "questList"), orderBy("exp", "asc"))
-            const querySnapshot = await getDocs(q)
-            const quests = querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
-            setQuestList(quests)
-        }catch(err){
+            const q = doc(collection(db, "users"), id);
+            const userData = await getDoc(q);
+            if (userData.exists()) setUserDetail(userData.data())
+        } catch (err) {
             console.error(err)
         }
         setIsLoading(false)
     }
 
-    useEffect(()=>{
-        getQuestList()
-    },[])
+    const getQuestList = async () => {
+        try {
+            setIsLoading(true)
+            const q = query(collection(db, "questList"), orderBy("exp", "asc"))
+            const querySnapshot = await getDocs(q)
+            const quests = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+            setQuestList(quests)
+        } catch (err) {
+            console.error(err)
+        }
+        setIsLoading(false)
+    }
 
+    useEffect(() => {
+        getUserById()
+        getQuestList()
+    }, [])
+    console.log(userDetail?.unlockedQuest)
     return (
         <div className='my-8 flex items-center text-[#F6F8D5]'>
             <div className='bg-[#205781] rounded-[16px] border-[10px] border-[#F6F8D5] border-double
@@ -52,9 +67,9 @@ const QuestList = () => {
                                     <p>{quest.points ? '•' : null}</p>
                                     <p className='text-[14px] text-[#efff94]'>{quest.exp} exp</p>
                                     <p>•</p>
-                                    <BadgesValidation className={quest.badges ? null : 'hidden'} data={quest.badges}/>
+                                    <BadgesValidation className={quest.badges ? null : 'hidden'} data={quest.badges} />
                                     <p className={quest.thropy ? null : 'hidden'}>{quest.thropy ? '•' : null}</p>
-                                    <ThropyValidation className={quest.thropy ? null : 'hidden'} data={quest.thropy}/>
+                                    <ThropyValidation className={quest.thropy ? null : 'hidden'} data={quest.thropy} />
                                 </div>
                                 <img src={arrow} alt="arrow" className='h-[18px] ' />
                             </div>
