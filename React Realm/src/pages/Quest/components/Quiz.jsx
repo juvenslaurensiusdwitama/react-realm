@@ -38,7 +38,6 @@ const Quiz = ({ data }) => {
         if (contentIndex === 1) setAllAnswer({ ...allAnswer, answerTwo: answer })
         if (contentIndex === 2) setAllAnswer({ ...allAnswer, answerThree: answer })
     }
-    console.log(allAnswer)
 
     const handleFinish = async () => {
         if (allAnswer.answerOne === data.contents[0].correctAnswer
@@ -55,12 +54,20 @@ const Quiz = ({ data }) => {
             setIsSubmitLoading(true)
             const newBadges = userDetail?.badges.includes(data.badges) ? userDetail?.badges : [...userDetail?.badges, data.badges]
             const newThropy = userDetail?.thropy.includes(data.thropy) ? userDetail?.thropy : [...userDetail?.thropy, data.thropy]
+            const argument1 = data.title === 'The Foundation of React (Lesson)'
+            const argument2 = data.title === 'The Foundation of React (Quiz)'
+            const argument3 = data.title === 'JSX (Lesson)'
+            const argument4 = data.title === 'JSX (Quiz)'
+            const argument5 = data.title === 'All About Components (Lesson)'
+            const nextQuest = argument1 ? 'The Foundation of React (Quiz)' : argument2 ? 'JSX (Lesson)' : argument3 ? 'JSX (Quiz)' : argument4 ? 'All About Components (Lesson)' : argument5 ? 'All About Components (Quiz)' : null
+            const newQuest = userDetail?.unlockedQuest.includes(nextQuest) ? userDetail?.unlockedQuest : [...userDetail?.unlockedQuest, nextQuest]
             await setDoc(doc(db, "users", id), {
                 ...userDetail,
                 thropy: newThropy,
                 badges: newBadges,
                 exp: userDetail.exp + data.exp,
-                points: userDetail.points + data.points
+                points: userDetail.points + data.points,
+                unlockedQuest: newQuest,
             })
         } catch (err) {
             console.error(err)
@@ -70,12 +77,28 @@ const Quiz = ({ data }) => {
             navigate('/quest')
         }
     }
+    // console.log(userDetail)
+    console.log(data.title)
+    const handleProgressLoss = async() =>{
+        try {
+            setIsSubmitLoading(true)
+            await setDoc(doc(db, "users", id), {
+                ...userDetail,
+                exp: userDetail.exp - data.minusExp,
+            })
+        }catch(err){
+            console.error(err)
+        }finally{
+            setIsSubmitLoading(false)
+            setIsWrongModalOpen(false)
+            navigate('/quest')
+        }
+    }
 
     useEffect(() => {
         getUserById()
     }, [])
 
-    console.log(data)
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center"
@@ -189,17 +212,16 @@ const Quiz = ({ data }) => {
             <Modal
                 title={data.title}
                 open={isWrongModalOpen}
-                onOk={() => setIsWrongModalOpen(false)}
                 onCancel={() => setIsWrongModalOpen(false)}
                 centered
                 width={450}
                 footer={
-                    <Button type='primary' onClick={() => navigate('/quest')}>
+                    <Button type='primary' onClick={() => handleProgressLoss()}>
                         Return to quest
                     </Button>
                 }
             >
-                <p>Sorry, you can’t claim the reward yet 😢. Fix the mistakes to earn the reward!</p>
+                <p>Sorry, you can’t claim the reward and lost -{data?.minusExp} exp 😢. Fix the mistakes to earn the reward!</p>
             </Modal>
         </div>
     )
