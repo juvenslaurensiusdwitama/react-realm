@@ -67,14 +67,16 @@ const Home = () => {
                                 </ConfigProvider>
                                 <div className='flex flex-col gap-1 bg-slate-500/40 px-1 py-1 my-1'>
                                     <div className='flex items-center gap-1'>
-                                        {userDetail?.badges.map((badge,i) =>
-                                            <BadgesValidation data={badge} key={i}/>
-                                        )}
+                                        {userDetail?.badges.length ? 
+                                            userDetail?.badges.map((badge) =>
+                                                <BadgesValidation data={badge} />
+                                            ) : <p className={`text-[12px] w-full text-center`}>No badges</p>}
                                     </div>
                                     <div className='flex items-center gap-3'>
-                                        {userDetail?.thropy.map((thropy,i) =>
-                                            <ThropyValidation data={thropy} key={i}/>
-                                        )}
+                                        {userDetail?.thropy.length ?
+                                            userDetail?.thropy.map((thropy) =>
+                                                <ThropyValidation data={thropy} />
+                                            ) : <p className={`text-[12px] w-full text-center`}>No thropy</p>}
                                     </div>
                                 </div>
                                 <div className='flex justify-end'>
