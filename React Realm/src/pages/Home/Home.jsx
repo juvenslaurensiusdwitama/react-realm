@@ -86,15 +86,16 @@ const Home = () => {
                             <div className='flex flex-col items-end gap-2'>
                                 <div className='flex flex-col items-end'>
                                     <p className='font-semibold text-[14px]'>Acquired Title</p>
-                                    {userDetail?.badges.map((badge) =>
-                                        <p className='text-[12px] underline underline-offset-2'>{badge === "Novice Coder" ? "Novice Coder"
-                                            : badge === "React Enthusiast" ? "React Enthusiast"
-                                                : badge === "JSX Debugger" ? "JSX Debugger"
-                                                    : badge === "JSX Architect" ? "JSX Architect"
-                                                        : badge === "Component Master" ? "Component Master"
-                                                            : badge === "Component Expert" ? "Component Expert"
-                                                                : "No acquired title"}</p>
-                                    )}
+                                    {userDetail?.badges.length ?
+                                        userDetail?.badges.map((badge) =>
+                                            <p className='text-[12px] underline underline-offset-2'>{badge === "Novice Coder" ? "Novice Coder"
+                                                : badge === "React Enthusiast" ? "React Enthusiast"
+                                                    : badge === "JSX Debugger" ? "JSX Debugger"
+                                                        : badge === "JSX Architect" ? "JSX Architect"
+                                                            : badge === "Component Master" ? "Component Master"
+                                                                : badge === "Component Expert" ? "Component Expert"
+                                                                    : null}</p>
+                                        ) : <p className='text-[12px] w-full'>No acquired title</p>}
                                 </div>
                             </div>
                         </div>
