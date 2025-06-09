@@ -38,7 +38,6 @@ const Quiz = ({ data }) => {
         if (contentIndex === 1) setAllAnswer({ ...allAnswer, answerTwo: answer })
         if (contentIndex === 2) setAllAnswer({ ...allAnswer, answerThree: answer })
     }
-    console.log(allAnswer)
 
     const handleFinish = async () => {
         if (allAnswer.answerOne === data.contents[0].correctAnswer
@@ -71,11 +70,28 @@ const Quiz = ({ data }) => {
         }
     }
 
+    const handleProgressLoss = async() =>{
+        try {
+            setIsSubmitLoading(true)
+            await setDoc(doc(db, "users", id), {
+                ...userDetail,
+                exp: userDetail.exp - data.minusExp,
+            })
+        }catch(err){
+            console.error(err)
+        }finally{
+            setIsSubmitLoading(false)
+            setIsWrongModalOpen(false)
+            navigate('/quest')
+        }
+    }
+
     useEffect(() => {
         getUserById()
     }, [])
 
-    console.log(data)
+    console.log(data.unlocked)
+    
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center"
@@ -189,17 +205,16 @@ const Quiz = ({ data }) => {
             <Modal
                 title={data.title}
                 open={isWrongModalOpen}
-                onOk={() => setIsWrongModalOpen(false)}
                 onCancel={() => setIsWrongModalOpen(false)}
                 centered
                 width={450}
                 footer={
-                    <Button type='primary' onClick={() => navigate('/quest')}>
+                    <Button type='primary' onClick={() => handleProgressLoss()}>
                         Return to quest
                     </Button>
                 }
             >
-                <p>Sorry, you can’t claim the reward yet 😢. Fix the mistakes to earn the reward!</p>
+                <p>Sorry, you can’t claim the reward and lost -{data?.minusExp} exp 😢. Fix the mistakes to earn the reward!</p>
             </Modal>
         </div>
     )

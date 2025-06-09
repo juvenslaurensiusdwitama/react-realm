@@ -21,6 +21,7 @@ const Register = () => {
                 "badges": [],
                 "thropy": [],
                 "avatars": ["archer"],
+                "activeAvatar": "archer",
             });
         } catch (err) {
             console.error(err)

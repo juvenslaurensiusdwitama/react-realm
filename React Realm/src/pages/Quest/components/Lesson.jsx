@@ -51,7 +51,7 @@ const Lesson = ({ data }) => {
         getUserById()
     }, [])
 
-    console.log(userDetail?.badges)
+    console.log(data.unlocked)
 
     return (
         <div
