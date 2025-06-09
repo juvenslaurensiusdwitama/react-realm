@@ -5,7 +5,7 @@ import jsxArchitect from '../assets/jsxArchitect24.png'
 import componentMaster from '../assets/componentMaster24.png'
 import componentExpert from '../assets/componentExpert24.png'
 
-const BadgesValidation = ({ className, data }) => {
+const BadgesValidation = ({data}) => {
     if(data){
         return (
             <img src={
@@ -18,8 +18,6 @@ const BadgesValidation = ({ className, data }) => {
                                         : null
             } alt="badges" />
         )
-    }else{
-        return <p className={`text-[12px] w-full text-center ${className}`}>No badges</p>
     }
 }
 
