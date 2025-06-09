@@ -67,13 +67,13 @@ const Home = () => {
                                 </ConfigProvider>
                                 <div className='flex flex-col gap-1 bg-slate-500/40 px-1 py-1 my-1'>
                                     <div className='flex items-center gap-1'>
-                                        {userDetail?.badges.map((badge) =>
-                                            <BadgesValidation data={badge} />
+                                        {userDetail?.badges.map((badge,i) =>
+                                            <BadgesValidation data={badge} key={i}/>
                                         )}
                                     </div>
                                     <div className='flex items-center gap-3'>
-                                        {userDetail?.thropy.map((thropy) =>
-                                            <ThropyValidation data={thropy} />
+                                        {userDetail?.thropy.map((thropy,i) =>
+                                            <ThropyValidation data={thropy} key={i}/>
                                         )}
                                     </div>
                                 </div>

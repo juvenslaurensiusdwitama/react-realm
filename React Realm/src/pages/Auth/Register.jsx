@@ -18,8 +18,8 @@ const Register = () => {
                 "password": values.password,
                 "points": 0,
                 "exp": 0,
-                "badges": [""],
-                "thropy": [""],
+                "badges": [],
+                "thropy": [],
                 "avatars": ["archer"],
             });
         } catch (err) {
