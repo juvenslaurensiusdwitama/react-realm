@@ -22,6 +22,7 @@ const Register = () => {
                 "thropy": [],
                 "avatars": ["archer"],
                 "activeAvatar": "archer",
+                "unlockedQuest": ["The Foundation of React (Lesson)"],
             });
         } catch (err) {
             console.error(err)

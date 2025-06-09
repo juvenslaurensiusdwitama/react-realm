@@ -33,10 +33,18 @@ const Lesson = ({ data }) => {
         try {
             setIsLoading(true)
             const newBadges = userDetail?.badges.includes(data.badges) ? userDetail?.badges : [...userDetail?.badges, data.badges]
+            const argument1 = data.title === 'The Foundation of React (Lesson)'
+            const argument2 = data.title === 'The Foundation of React (Quiz)'
+            const argument3 = data.title === 'JSX (Lesson)'
+            const argument4 = data.title === 'JSX (Quiz)'
+            const argument5 = data.title === 'All About Components (Lesson)'
+            const nextQuest = argument1 ? 'The Foundation of React (Quiz)' : argument2 ? 'JSX (Lesson)' : argument3 ? 'JSX (Quiz)' : argument4 ? 'All About Components (Lesson)' : argument5 ? 'All About Components (Quiz)' : null
+            const newQuest = userDetail?.unlockedQuest.includes(nextQuest) ? userDetail?.unlockedQuest : [...userDetail?.unlockedQuest, nextQuest]
             await setDoc(doc(db, "users", id), {
                 ...userDetail,
                 badges: newBadges,
-                exp: userDetail.exp + data.exp
+                exp: userDetail.exp + data.exp,
+                unlockedQuest: newQuest,
             })
         } catch (err) {
             console.error(err)
@@ -50,9 +58,7 @@ const Lesson = ({ data }) => {
     useEffect(() => {
         getUserById()
     }, [])
-
-    console.log(data.unlocked)
-
+    console.log(data.title)
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center"
