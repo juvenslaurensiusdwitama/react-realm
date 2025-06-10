@@ -3,11 +3,24 @@ import bgQuest from '../../../assets/bg-quest.png'
 import gandalf from '../../../assets/gandalf.png'
 import arrow from '../../../assets/arrow-pixel.png'
 import BadgesValidation from '../../../components/BadgesValidation';
+import reactAnimated from '../../../assets/reactAnimated.gif'
+import virtualDOM from '../../../assets/virtualDOM.jpg'
+import propsDrill from '../../../assets/propsDrill.jpg'
+import jsx1 from '../../../assets/jsx1.jpg'
+import jsx2 from '../../../assets/jsx2.jpg'
+import jsx3 from '../../../assets/jsx3.jpg'
+import jsx4 from '../../../assets/jsx4.jpg'
+import components1 from '../../../assets/components1.jpg'
+import components2 from '../../../assets/components2.png'
+import components3 from '../../../assets/components3.png'
+import components4 from '../../../assets/components4.jpg'
+import ImageValidation from '../../../components/ImageValidation';
 import { Button, Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { getDoc, doc, setDoc, collection } from "firebase/firestore";
 import { db } from '../../../config/firestore';
 import { useNavigate } from 'react-router-dom';
+
 
 const Lesson = ({ data }) => {
     const id = sessionStorage.getItem('id')
@@ -58,7 +71,7 @@ const Lesson = ({ data }) => {
     useEffect(() => {
         getUserById()
     }, [])
-    console.log(data.title)
+    console.log(data.imgContents)
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center"
@@ -68,8 +81,8 @@ const Lesson = ({ data }) => {
             <div className='flex flex-col my-8 rounded-[16px] border-[4px] border-[#F6F8D5] 
                 border-solid w-[750px]'
             >
-                <div className='bg-[#205781] min-h-[370px] rounded-t-[12px] py-3 px-4'>
-                    <div className='flex justify-between text-[14px] text-[#F6F8D5] font-semibold'>
+                <div className='bg-[#205781] min-h-[200px] rounded-t-[12px] py-3 px-4'>
+                    <div className='flex justify-between text-[14px] text-[#F6F8D5] font-semibold w-full'>
                         <h1>{data.title}</h1>
                         <div className='flex gap-1'>
                             <p>Reward:</p>
@@ -78,7 +91,19 @@ const Lesson = ({ data }) => {
                             <BadgesValidation data={data.badges} />
                         </div>
                     </div>
-                    <div>tes</div>
+                    <div className='flex flex-col items-center justify-center h-full pb-4'>
+                        <ImageValidation src={data.imgContents[contentIndex] === "reactAnimated" ? reactAnimated : null} className='w-[250px]'/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "virtualDOM" ? virtualDOM : null} />
+                        <ImageValidation src={data.imgContents[contentIndex] === "propsDrill" ? propsDrill : null} className=''/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "jsx1" ? jsx1 : null} className=''/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "jsx2" ? jsx2 : null} className=''/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "jsx3" ? jsx3 : null} className=''/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "jsx4" ? jsx4 : null} className=''/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "components1" ? components1 : null} className=''/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "components2" ? components2 : null} className=''/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "components3" ? components3 : null} className=''/>
+                        <ImageValidation src={data.imgContents[contentIndex] === "components4" ? components4 : null} className=''/>
+                    </div>
                 </div>
                 <div className='flex bg-[#4F959D] 
                 min-h-[200px] rounded-b-[12px] py-3 pr-[80px] items-center'>
