@@ -1,6 +1,6 @@
 import Menu from '../../components/Menu'
 import bgHome from '../../assets/bg-home.jpg'
-import { getFirestore, doc, getDoc, collection } from "firebase/firestore";
+import { getFirestore, doc, getDoc, collection, setDoc } from "firebase/firestore";
 import { useEffect, useState } from 'react';
 import { ConfigProvider, Flex, Progress } from 'antd';
 import BadgesValidation from '../../components/BadgesValidation';
@@ -12,6 +12,7 @@ const Home = () => {
     const db = getFirestore();
     const [userDetail, setUserDetail] = useState()
     const [isLoading, setIsLoading] = useState(false)
+    const [selectedAvatar, setSelectedAvatar] = useState("archer")
 
     const getUserById = async () => {
         try {
@@ -24,6 +25,21 @@ const Home = () => {
             console.error(err)
         }
         setIsLoading(false)
+    }
+
+    const handleSelect = async () => {
+        try {
+            setIsLoading(true)
+            await setDoc(doc(db, "users", id), {
+                ...userDetail,
+                activeAvatar: selectedAvatar,
+            })
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsLoading(false)
+            getUserById()
+        }
     }
 
     useEffect(() => {
@@ -67,7 +83,7 @@ const Home = () => {
                                 </ConfigProvider>
                                 <div className='flex flex-col gap-1 bg-slate-500/40 px-1 py-1 my-1'>
                                     <div className='flex items-center gap-1'>
-                                        {userDetail?.badges.length ? 
+                                        {userDetail?.badges.length ?
                                             userDetail?.badges.map((badge) =>
                                                 <BadgesValidation data={badge} />
                                             ) : <p className={`text-[12px] w-full text-center`}>No badges</p>}
@@ -102,16 +118,27 @@ const Home = () => {
                         <div className='w-full flex justify-between'>
                             <div className='grid grid-cols-3 gap-2 items-start'>
                                 {userDetail?.avatars.map((avatar) =>
-                                    <div className='bg-slate-500/40 cursor-pointer hover:opacity-[0.6]'>
-                                        <AvatarValidation className='w-[120px] p-1' data={avatar} />
-                                    </div>
+                                    <>
+                                        {avatar === userDetail?.activeAvatar ? 
+                                            <div className='bg-slate-400/50'>
+                                                <AvatarValidation className='w-[120px] p-1' data={avatar} />
+                                            </div>
+                                            :
+                                            <div className='bg-slate-500/40 cursor-pointer hover:opacity-[0.6]'
+                                                onClick={() => setSelectedAvatar(avatar)}
+                                            >
+                                                <AvatarValidation className='w-[120px] p-1' data={avatar} />
+                                            </div>
+                                        }
+                                    </>
                                 )}
                             </div>
                             <div className='flex flex-col justify-center items-center'>
-                                <AvatarValidation className='w-[210px]' data={userDetail?.activeAvatar} />
+                                <AvatarValidation className='w-[210px]' data={selectedAvatar} />
                                 <button
                                     className='bg-slate-500/40 px-6 py-1 font-semibold 
-                                transition duration-100 cursor-pointer hover:opacity-[0.6]'
+                                    transition duration-100 cursor-pointer hover:opacity-[0.6]'
+                                    onClick={() => handleSelect()}
                                 >
                                     Select
                                 </button>
