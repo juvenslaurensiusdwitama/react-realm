@@ -73,7 +73,7 @@ const ShopList = () => {
         getUserById()
         getAvatarList()
     }, [])
-
+    console.log(userDetail?.avatars)
     return (
         <div className="my-8 flex items-center text-[#ffe6cd]">
             <div className="bg-[#6F4E37] min-w-[992px] rounded-[12px] flex flex-col 
@@ -95,12 +95,18 @@ const ShopList = () => {
                                     <h1 className='text-[20px] font-semibold'>{avatar.name}</h1>
                                     <p className='text-[14px]'>{avatar.description}</p>
                                 </div>
-                                <button className='bg-[#6F4E37] cursor-pointer text-[14px] transition duration-200
-                                    border-[2px] border-[#FED8B1] font-bold p-2 hover:bg-[#4e392b]'
-                                    onClick={() => handlePurchase(avatar.price, avatar.img)}
-                                >
-                                    Buy for {avatar.price} pt
-                                </button>
+                                {userDetail?.avatars.includes(avatar.img) ?
+                                    <p className="text-center text-[14px] font-semibold p-2 bg-[#5a5550]
+                                    border-[2px] border-[#cabeb1] text-[#e9dccf]">
+                                        Owned
+                                    </p>
+                                    :
+                                    <button className='bg-[#6F4E37] cursor-pointer text-[14px] transition duration-200
+                                        border-[2px] border-[#FED8B1] font-semibold p-2 hover:bg-[#4e392b]'
+                                        onClick={() => handlePurchase(avatar.price, avatar.img)}
+                                    >
+                                        Buy for {avatar.price} pt
+                                    </button>}
                             </div>
                         </li>
                     )
@@ -124,7 +130,7 @@ const ShopList = () => {
                         </Button>
                 }
             >
-                <p>You sure want to purchase for this avatar?</p>
+                <p>Are you sure you want to purchase this avatar? 🛒</p>
             </Modal>
             <Modal
                 title={'Avatar Shop'}
@@ -133,12 +139,12 @@ const ShopList = () => {
                 centered
                 width={450}
                 footer={
-                    <Button type='primary' onClick={() => navigate('/shop')}>
+                    <Button type='primary' onClick={() => setIsFailedPurchase(false)}>
                         Return to shop
                     </Button>
                 }
             >
-                <p>Sorry, you dont have enough points to purchase this avatar</p>
+                <p>Sorry, you don't have enough points to purchase this avatar 😔</p>
             </Modal>
         </div>
     )
