@@ -46,7 +46,7 @@ const Home = () => {
                     :
                     <>
                         <div className='flex justify-between items-start'>
-                            <div className='min-w-[292px] flex flex-col bg-slate-500/40 py-2 px-4'>
+                            <div className='min-w-[376px] flex flex-col bg-slate-500/40 py-2 px-4'>
                                 <h1 className='text-[16px] font-semibold'>{userDetail?.username}</h1>
                                 <div className='flex justify-between text-[14px]'>
                                     <p>Level 10</p>
@@ -103,12 +103,12 @@ const Home = () => {
                             <div className='grid grid-cols-3 gap-2 items-start'>
                                 {userDetail?.avatars.map((avatar) =>
                                     <div className='bg-slate-500/40 cursor-pointer hover:opacity-[0.6]'>
-                                        <AvatarValidation className='w-[92px] p-1' data={avatar} />
+                                        <AvatarValidation className='w-[120px] p-1' data={avatar} />
                                     </div>
                                 )}
                             </div>
                             <div className='flex flex-col justify-center items-center'>
-                                <AvatarValidation className='w-[200px]' data={userDetail?.activeAvatar} />
+                                <AvatarValidation className='w-[210px]' data={userDetail?.activeAvatar} />
                                 <button
                                     className='bg-slate-500/40 px-6 py-1 font-semibold 
                                 transition duration-100 cursor-pointer hover:opacity-[0.6]'
