@@ -134,7 +134,7 @@ const Home = () => {
                                 )}
                             </div>
                             <div className='flex flex-col justify-center items-center'>
-                                <AvatarValidation className='w-[210px]' data={selectedAvatar} />
+                                <AvatarValidation className='w-[210px]' data={userDetail?.activeAvatar} />
                                 <button
                                     className='bg-slate-500/40 px-6 py-1 font-semibold 
                                     transition duration-100 cursor-pointer hover:opacity-[0.6]'
