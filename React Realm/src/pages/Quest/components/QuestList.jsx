@@ -43,7 +43,7 @@ const QuestList = () => {
         getUserById()
         getQuestList()
     }, [])
-    console.log(userDetail?.unlockedQuest)
+    
     return (
         <div className='my-8 flex items-center text-[#F6F8D5]'>
             <div className='bg-[#205781] rounded-[16px] border-[10px] border-[#F6F8D5] border-double

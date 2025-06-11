@@ -13,8 +13,8 @@ const Menu = () => {
 
     return (
         <div className="flex items-center gap-5 py-10">
-            <img src={Home} alt="Home" className="cursor-pointer h-[60px]" onClick={() => navigate('/')} />
             <img src={Quest} alt="Quest" className="cursor-pointer h-[60px]" onClick={() => navigate('/quest')} />
+            <img src={Home} alt="Home" className="cursor-pointer h-[60px]" onClick={() => navigate('/')} />
             <img src={Shop} alt="Shop" className="cursor-pointer h-[60px]" onClick={() => navigate('/shop')} />
             <img src={Logout} alt="Logout" className="cursor-pointer h-[52px]" onClick={() => onLogout()} />
         </div>

@@ -73,7 +73,7 @@ const ShopList = () => {
         getUserById()
         getAvatarList()
     }, [])
-    console.log(userDetail?.avatars)
+    
     return (
         <div className="my-8 flex items-center text-[#ffe6cd]">
             <div className="bg-[#6F4E37] min-w-[992px] rounded-[12px] flex flex-col 

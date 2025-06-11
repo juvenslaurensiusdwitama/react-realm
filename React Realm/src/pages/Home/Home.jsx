@@ -1,5 +1,5 @@
-import Menu from '../../components/Menu'
-import bgHome from '../../assets/bg-home.jpg'
+import Menu from '../../components/Menu';
+import bgHome from '../../assets/bg-home.jpg';
 import { getFirestore, doc, getDoc, collection, setDoc } from "firebase/firestore";
 import { useEffect, useState } from 'react';
 import { ConfigProvider, Flex, Progress } from 'antd';
@@ -8,44 +8,74 @@ import ThropyValidation from '../../components/ThropyValidation';
 import AvatarValidation from '../../components/AvatarValidation';
 
 const Home = () => {
-    const id = sessionStorage.getItem('id')
+    const id = sessionStorage.getItem('id');
     const db = getFirestore();
-    const [userDetail, setUserDetail] = useState()
-    const [isLoading, setIsLoading] = useState(false)
-    const [selectedAvatar, setSelectedAvatar] = useState("")
+    const levelThresholds = [0, 100, 250, 450, 700, 1000, 1350];
+    const [level, setLevel] = useState(0);
+    const [userDetail, setUserDetail] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedAvatar, setSelectedAvatar] = useState("");
 
     const getUserById = async () => {
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             const q = doc(collection(db, "users"), id);
             const userData = await getDoc(q);
-            if (userData.exists()) setUserDetail(userData.data())
-            console.log(userData.data())
+            if (userData.exists()) {
+                const data = userData.data();
+                setUserDetail(data);
+                setLevel(getLevelFromExp(data.exp));
+            }
         } catch (err) {
-            console.error(err)
+            console.error(err);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false)
-    }
+    };
 
     const handleSelect = async () => {
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             await setDoc(doc(db, "users", id), {
                 ...userDetail,
                 activeAvatar: selectedAvatar,
-            })
+            });
         } catch (err) {
-            console.error(err)
+            console.error(err);
         } finally {
-            setIsLoading(false)
-            getUserById()
+            setIsLoading(false);
+            getUserById();
         }
-    }
+    };
+
+    const getLevelFromExp = (exp) => {
+        for (let i = levelThresholds.length - 1; i >= 0; i--) {
+            if (exp >= levelThresholds[i]) {
+                return i + 1;
+            }
+        }
+        return 1;
+    };
+
+    const getProgressToNextLevel = () => {
+        const exp = userDetail?.exp || 0;
+        const currentLevelIndex = level - 1;
+        const currentThreshold = levelThresholds[currentLevelIndex] || 0;
+        const nextThreshold = levelThresholds[currentLevelIndex + 1] || exp;
+
+        const progress = exp - currentThreshold;
+        const required = nextThreshold - currentThreshold;
+        const percent = ((progress / required) * 100).toFixed(1);
+
+        return { progress, required, percent };
+    };
 
     useEffect(() => {
-        getUserById()
-    }, [])
-    console.log(userDetail)
+        getUserById();
+    }, []);
+
+    const progressData = userDetail ? getProgressToNextLevel() : { progress: 0, required: 0, percent: 0 };
+
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center"
@@ -53,8 +83,7 @@ const Home = () => {
         >
             <Menu />
             <div className='my-20 bg-slate-900/80 backdrop-blur-xs 
-                text-white p-6 flex flex-col gap-2 min-h-[400px] min-w-[450px]'
-            >
+                text-white p-6 flex flex-col gap-2 min-h-[400px] min-w-[450px]'>
                 {isLoading ?
                     <div className='h-full w-full flex items-center justify-center'>
                         <span className="loader"></span>
@@ -65,34 +94,32 @@ const Home = () => {
                             <div className='min-w-[376px] flex flex-col bg-slate-500/40 py-2 px-4'>
                                 <h1 className='text-[16px] font-semibold'>{userDetail?.username}</h1>
                                 <div className='flex justify-between text-[14px]'>
-                                    <p>Level 10</p>
-                                    <p>{userDetail?.exp} exp / 344 exp</p>
+                                    <p>Level {level}</p>
+                                    <p className="text-[12px] text-white text-end">
+                                        {userDetail?.exp} / {progressData.required + levelThresholds[level - 1]} Exp
+                                    </p>
                                 </div>
-                                <ConfigProvider
-                                    theme={{
-                                        components: {
-                                            Progress: {
-                                                colorText: '#ffff'
-                                            },
-                                        },
-                                    }}
-                                >
+                                <ConfigProvider theme={{ components: { Progress: { colorText: '#ffff' } } }}>
                                     <Flex vertical gap="small" style={{ width: '100%' }}>
-                                        <Progress percent={30} size="small" status="active" />
+                                        <Progress
+                                            percent={parseFloat(progressData.percent)}
+                                            size="small"
+                                            status="active"
+                                        />
                                     </Flex>
                                 </ConfigProvider>
                                 <div className='flex flex-col gap-1 bg-slate-500/40 px-1 py-1 my-1'>
                                     <div className='flex items-center gap-1'>
                                         {userDetail?.badges.length ?
-                                            userDetail?.badges.map((badge) =>
-                                                <BadgesValidation data={badge} />
-                                            ) : <p className={`text-[12px] w-full text-center`}>No badges</p>}
+                                            userDetail.badges.map((badge, idx) =>
+                                                <BadgesValidation key={idx} data={badge} />
+                                            ) : <p className='text-[12px] w-full text-center'>No badges</p>}
                                     </div>
                                     <div className='flex items-center gap-3'>
                                         {userDetail?.thropy.length ?
-                                            userDetail?.thropy.map((thropy) =>
-                                                <ThropyValidation data={thropy} />
-                                            ) : <p className={`text-[12px] w-full text-center`}>No thropy</p>}
+                                            userDetail.thropy.map((thropy, idx) =>
+                                                <ThropyValidation key={idx} data={thropy} />
+                                            ) : <p className='text-[12px] w-full text-center'>No thropy</p>}
                                     </div>
                                 </div>
                                 <div className='flex justify-end'>
@@ -103,57 +130,45 @@ const Home = () => {
                                 <div className='flex flex-col items-end'>
                                     <p className='font-semibold text-[14px]'>Acquired Title</p>
                                     {userDetail?.badges.length ?
-                                        userDetail?.badges.map((badge) =>
-                                            <p className='text-[12px] underline underline-offset-2'>{badge === "Novice Coder" ? "Novice Coder"
-                                                : badge === "React Enthusiast" ? "React Enthusiast"
-                                                    : badge === "JSX Debugger" ? "JSX Debugger"
-                                                        : badge === "JSX Architect" ? "JSX Architect"
-                                                            : badge === "Component Master" ? "Component Master"
-                                                                : badge === "Component Expert" ? "Component Expert"
-                                                                    : null}</p>
+                                        userDetail.badges.map((badge, idx) =>
+                                            <p key={idx} className='text-[12px] underline underline-offset-2'>
+                                                {{
+                                                    "Novice Coder": "Novice Coder",
+                                                    "React Enthusiast": "React Enthusiast",
+                                                    "JSX Debugger": "JSX Debugger",
+                                                    "JSX Architect": "JSX Architect",
+                                                    "Component Master": "Component Master",
+                                                    "Component Expert": "Component Expert"
+                                                }[badge] || null}
+                                            </p>
                                         ) : <p className='text-[12px] w-full'>No acquired title</p>}
                                 </div>
                             </div>
                         </div>
                         <div className='w-full flex justify-between'>
                             <div className='grid grid-cols-3 gap-2 items-start'>
-                                {
-                                selectedAvatar ? userDetail?.avatars.map((avatar) =>
-                                    <>
-                                        {avatar === selectedAvatar ? 
-                                            <div className='bg-slate-400/50'>
-                                                <AvatarValidation className='w-[120px] p-1' data={avatar} />
-                                            </div>
-                                            :
-                                            <div className='bg-slate-500/40 cursor-pointer hover:opacity-[0.6]'
-                                                onClick={() => setSelectedAvatar(avatar)}
-                                            >
-                                                <AvatarValidation className='w-[120px] p-1' data={avatar} />
-                                            </div>
-                                        }
-                                    </>)
-                                : userDetail?.avatars.map((avatar) =>
-                                    <>
-                                        {avatar === userDetail?.activeAvatar ? 
-                                            <div className='bg-slate-400/50'>
-                                                <AvatarValidation className='w-[120px] p-1' data={avatar} />
-                                            </div>
-                                            :
-                                            <div className='bg-slate-500/40 cursor-pointer hover:opacity-[0.6]'
-                                                onClick={() => setSelectedAvatar(avatar)}
-                                            >
-                                                <AvatarValidation className='w-[120px] p-1' data={avatar} />
-                                            </div>
-                                        }
-                                    </>)
-                                }
+                                {userDetail?.avatars.map((avatar, idx) => {
+                                    const isSelected = avatar === (selectedAvatar || userDetail?.activeAvatar);
+                                    return (
+                                        <div
+                                            key={idx}
+                                            className={`${isSelected ? 'bg-slate-400/50' : 'bg-slate-500/40 cursor-pointer hover:opacity-[0.6]'}`}
+                                            onClick={() => !isSelected && setSelectedAvatar(avatar)}
+                                        >
+                                            <AvatarValidation className='w-[120px] p-1' data={avatar} />
+                                        </div>
+                                    );
+                                })}
                             </div>
                             <div className='flex flex-col justify-center items-center'>
-                                <AvatarValidation className='w-[210px]' data={selectedAvatar ? selectedAvatar : userDetail?.activeAvatar} />
+                                <AvatarValidation
+                                    className='w-[210px]'
+                                    data={selectedAvatar || userDetail?.activeAvatar}
+                                />
                                 <button
                                     className='bg-slate-500/40 px-6 py-1 font-semibold 
                                     transition duration-100 cursor-pointer hover:opacity-[0.6]'
-                                    onClick={() => handleSelect()}
+                                    onClick={handleSelect}
                                 >
                                     Select
                                 </button>
@@ -162,7 +177,7 @@ const Home = () => {
                     </>}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;
