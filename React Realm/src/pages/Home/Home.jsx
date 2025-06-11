@@ -12,7 +12,7 @@ const Home = () => {
     const db = getFirestore();
     const [userDetail, setUserDetail] = useState()
     const [isLoading, setIsLoading] = useState(false)
-    const [selectedAvatar, setSelectedAvatar] = useState("archer")
+    const [selectedAvatar, setSelectedAvatar] = useState("")
 
     const getUserById = async () => {
         try {
@@ -117,7 +117,22 @@ const Home = () => {
                         </div>
                         <div className='w-full flex justify-between'>
                             <div className='grid grid-cols-3 gap-2 items-start'>
-                                {userDetail?.avatars.map((avatar) =>
+                                {
+                                selectedAvatar ? userDetail?.avatars.map((avatar) =>
+                                    <>
+                                        {avatar === selectedAvatar ? 
+                                            <div className='bg-slate-400/50'>
+                                                <AvatarValidation className='w-[120px] p-1' data={avatar} />
+                                            </div>
+                                            :
+                                            <div className='bg-slate-500/40 cursor-pointer hover:opacity-[0.6]'
+                                                onClick={() => setSelectedAvatar(avatar)}
+                                            >
+                                                <AvatarValidation className='w-[120px] p-1' data={avatar} />
+                                            </div>
+                                        }
+                                    </>)
+                                : userDetail?.avatars.map((avatar) =>
                                     <>
                                         {avatar === userDetail?.activeAvatar ? 
                                             <div className='bg-slate-400/50'>
@@ -130,11 +145,11 @@ const Home = () => {
                                                 <AvatarValidation className='w-[120px] p-1' data={avatar} />
                                             </div>
                                         }
-                                    </>
-                                )}
+                                    </>)
+                                }
                             </div>
                             <div className='flex flex-col justify-center items-center'>
-                                <AvatarValidation className='w-[210px]' data={userDetail?.activeAvatar} />
+                                <AvatarValidation className='w-[210px]' data={selectedAvatar ? selectedAvatar : userDetail?.activeAvatar} />
                                 <button
                                     className='bg-slate-500/40 px-6 py-1 font-semibold 
                                     transition duration-100 cursor-pointer hover:opacity-[0.6]'
