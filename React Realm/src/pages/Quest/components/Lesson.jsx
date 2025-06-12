@@ -146,7 +146,7 @@ const Lesson = ({ data }) => {
                         </Button>
                         :
                         <Button type='primary' onClick={() => handleFinish()}>
-                            Claim Reward
+                            Claim reward
                         </Button>
                 }
             >

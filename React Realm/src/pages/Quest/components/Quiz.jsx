@@ -180,7 +180,7 @@ const Quiz = ({ data }) => {
                         </Button>
                         :
                         <Button type='primary' onClick={() => handleReward()}>
-                            Claim Reward
+                            Claim reward
                         </Button>
                 }
             >

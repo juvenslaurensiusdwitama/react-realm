@@ -23,6 +23,8 @@ const Register = () => {
                 "avatars": ["archer"],
                 "activeAvatar": "archer",
                 "unlockedQuest": ["The Foundation of React (Lesson)"],
+                "easterEggOpened": false,
+                "pet": '',
             });
         } catch (err) {
             console.error(err)
