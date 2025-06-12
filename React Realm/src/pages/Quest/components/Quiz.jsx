@@ -3,6 +3,9 @@ import bgQuest from '../../../assets/bg-quest.png'
 import BadgesValidation from '../../../components/BadgesValidation';
 import arrow from '../../../assets/arrow-pixel.png'
 import Menu from '../../../components/Menu';
+import petGriffin from '../../../assets/petGriffin.png';
+import petDragon from '../../../assets/petDragon.png';
+import petHydra from '../../../assets/petHydra.png';
 import AvatarValidation from '../../../components/AvatarValidation';
 import { getFirestore, doc, getDoc, collection, setDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +52,7 @@ const Quiz = ({ data }) => {
         }
     }
 
-    const handleReward = async() => {
+    const handleReward = async () => {
         try {
             setIsSubmitLoading(true)
             const newBadges = userDetail?.badges.includes(data.badges) ? userDetail?.badges : [...userDetail?.badges, data.badges]
@@ -79,16 +82,16 @@ const Quiz = ({ data }) => {
     }
     // console.log(userDetail)
     console.log(data.title)
-    const handleProgressLoss = async() =>{
+    const handleProgressLoss = async () => {
         try {
             setIsSubmitLoading(true)
             await setDoc(doc(db, "users", id), {
                 ...userDetail,
                 exp: userDetail.exp - data.minusExp,
             })
-        }catch(err){
+        } catch (err) {
             console.error(err)
-        }finally{
+        } finally {
             setIsSubmitLoading(false)
             setIsWrongModalOpen(false)
             navigate('/quest')
@@ -124,7 +127,17 @@ const Quiz = ({ data }) => {
                 </div>
                 <h1 className='text-[28px] font-semibold w-full text-center'>{data.contents[contentIndex].question}</h1>
                 <div className='flex justify-between items-center'>
-                    <AvatarValidation data={userDetail?.activeAvatar} className={'w-[230px] h-fit'} />
+                    <div className='relative'>
+                        <AvatarValidation data={userDetail?.activeAvatar} className={'w-[230px] h-fit'} />
+                        {userDetail?.pet &&
+                            <img src={
+                                userDetail?.pet === 'griffin' ? petGriffin
+                                    : userDetail?.pet === 'dragon' ? petDragon
+                                        : userDetail?.pet === 'hydra' ? petHydra
+                                            : null
+                            } alt="pet" className={userDetail?.pet === 'hydra' ? 'w-[80px] absolute top-[-20px] scale-x-[-1]' : 'w-[80px] absolute top-[-20px]'} />
+                        }
+                    </div>
                     <div className='flex flex-col gap-4 w-full'>
                         {data.contents[contentIndex].answer.map((item, i) =>
                             <p className={`bg-[#4F959D] text-[18px] p-2 rounded-[8px] h-fit
