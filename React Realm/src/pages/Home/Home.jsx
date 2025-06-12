@@ -2,19 +2,27 @@ import Menu from '../../components/Menu';
 import bgHome from '../../assets/bg-home.jpg';
 import { getFirestore, doc, getDoc, collection, setDoc } from "firebase/firestore";
 import { useEffect, useState } from 'react';
-import { ConfigProvider, Flex, Progress } from 'antd';
+import { Button, ConfigProvider, Flex, Modal, Progress } from 'antd';
 import BadgesValidation from '../../components/BadgesValidation';
 import ThropyValidation from '../../components/ThropyValidation';
 import AvatarValidation from '../../components/AvatarValidation';
+import easterEgg from '../../assets/easterEgg.png';
+import petGriffin from '../../assets/petGriffin.png';
+import petDragon from '../../assets/petDragon.png';
+import petHydra from '../../assets/petHydra.png';
 
 const Home = () => {
     const id = sessionStorage.getItem('id');
     const db = getFirestore();
     const levelThresholds = [0, 100, 250, 450, 700, 1000, 1350];
+    const pets = ["dragon", "griffin", "hydra"]
     const [level, setLevel] = useState(0);
     const [userDetail, setUserDetail] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [isSubmitLoading, setIsSubmitLoading] = useState(false)
     const [selectedAvatar, setSelectedAvatar] = useState("");
+    const [isEasterEggOpened, setIsEasterEggOpened] = useState(false)
+    const [pet, setPet] = useState(null);
 
     const getUserById = async () => {
         try {
@@ -70,15 +78,40 @@ const Home = () => {
         return { progress, required, percent };
     };
 
+    const handleEasterEgg = () => {
+        const randomPet = pets[Math.floor(Math.random() * pets.length)];
+        setPet(randomPet)
+        setIsEasterEggOpened(true)
+    }
+
+    const handleUpdatePet = async () => {
+        try {
+            setIsSubmitLoading(true)
+            setIsLoading(true)
+            await setDoc(doc(db, "users", id), {
+                ...userDetail,
+                easterEggOpened: true,
+                pet: pet,
+            })
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsSubmitLoading(false)
+            setIsLoading(false)
+            setIsEasterEggOpened(false)
+            getUserById();
+        }
+    }
+
     useEffect(() => {
         getUserById();
     }, []);
 
     const progressData = userDetail ? getProgressToNextLevel() : { progress: 0, required: 0, percent: 0 };
-
+    
     return (
         <div
-            className="h-screen bg-cover bg-center flex flex-col items-center"
+            className="h-screen bg-cover bg-center flex flex-col items-center relative"
             style={{ backgroundImage: `url(${bgHome})` }}
         >
             <Menu />
@@ -161,10 +194,18 @@ const Home = () => {
                                 })}
                             </div>
                             <div className='flex flex-col justify-center items-center'>
-                                <AvatarValidation
-                                    className='w-[210px]'
-                                    data={selectedAvatar || userDetail?.activeAvatar}
-                                />
+                                <div className='relative'>
+                                    <AvatarValidation
+                                        className='w-[210px]'
+                                        data={selectedAvatar || userDetail?.activeAvatar}
+                                    />
+                                    <img src={
+                                        userDetail?.pet === 'griffin' ? petGriffin
+                                        : userDetail?.pet === 'dragon' ? petDragon
+                                        : userDetail?.pet === 'hydra' ? petHydra
+                                        : null
+                                    } alt="pet" className={userDetail?.pet === 'hydra' ? 'w-[80px] absolute top-0 scale-x-[-1]' : 'w-[80px] absolute top-0'}/>
+                                </div>
                                 <button
                                     className='bg-slate-500/40 px-6 py-1 font-semibold 
                                     transition duration-100 cursor-pointer hover:opacity-[0.6]'
@@ -176,6 +217,33 @@ const Home = () => {
                         </div>
                     </>}
             </div>
+            {userDetail?.easterEggOpened ?
+                null
+                :
+                <img src={easterEgg} alt=""
+                    className='absolute bottom-0 right-0 h-[150px] transition
+                    cursor-pointer hover:opacity-[0.7] duration-100'
+                    onClick={() => handleEasterEgg()}
+                />}
+            <Modal
+                title={"Easter egg"}
+                open={isEasterEggOpened}
+                onCancel={() => setIsEasterEggOpened(false)}
+                centered
+                width={450}
+                footer={
+                    isSubmitLoading ?
+                        <Button type="primary" loading iconPosition={'end'}>
+                            Loading
+                        </Button>
+                        :
+                        <Button type='primary' onClick={() => handleUpdatePet()}>
+                            Claim pet reward
+                        </Button>
+                }
+            >
+                <p>Congrats you got {pet} pet!</p>
+            </Modal>
         </div>
     );
 };
