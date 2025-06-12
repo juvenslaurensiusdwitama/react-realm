@@ -7,6 +7,9 @@ import BadgesValidation from '../../components/BadgesValidation';
 import ThropyValidation from '../../components/ThropyValidation';
 import AvatarValidation from '../../components/AvatarValidation';
 import easterEgg from '../../assets/easterEgg.png';
+import petGriffin from '../../assets/petGriffin.png';
+import petDragon from '../../assets/petDragon.png';
+import petHydra from '../../assets/petHydra.png';
 
 const Home = () => {
     const id = sessionStorage.getItem('id');
@@ -191,11 +194,18 @@ const Home = () => {
                                 })}
                             </div>
                             <div className='flex flex-col justify-center items-center'>
-                                <AvatarValidation
-                                    className='w-[210px]'
-                                    data={selectedAvatar || userDetail?.activeAvatar}
-                                />
-                                <p>{userDetail?.pet}</p>
+                                <div className='relative'>
+                                    <AvatarValidation
+                                        className='w-[210px]'
+                                        data={selectedAvatar || userDetail?.activeAvatar}
+                                    />
+                                    <img src={
+                                        userDetail?.pet === 'griffin' ? petGriffin
+                                        : userDetail?.pet === 'dragon' ? petDragon
+                                        : userDetail?.pet === 'hydra' ? petHydra
+                                        : null
+                                    } alt="pet" className={userDetail?.pet === 'hydra' ? 'w-[80px] absolute top-0 scale-x-[-1]' : 'w-[80px] absolute top-0'}/>
+                                </div>
                                 <button
                                     className='bg-slate-500/40 px-6 py-1 font-semibold 
                                     transition duration-100 cursor-pointer hover:opacity-[0.6]'
