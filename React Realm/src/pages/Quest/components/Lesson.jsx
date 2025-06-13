@@ -1,4 +1,3 @@
-import Menu from '../../../components/Menu';
 import bgQuest from '../../../assets/bg-quest.png'
 import gandalf from '../../../assets/gandalf.png'
 import arrow from '../../../assets/arrow-pixel.png'
@@ -71,14 +70,13 @@ const Lesson = ({ data }) => {
     useEffect(() => {
         getUserById()
     }, [])
-    console.log(data.imgContents)
+    
     return (
         <div
-            className="h-screen bg-cover bg-center flex flex-col items-center"
+            className="h-screen bg-cover bg-center flex flex-col items-center justify-center"
             style={{ backgroundImage: `url(${bgQuest})` }}
         >
-            <Menu />
-            <div className='flex flex-col my-8 rounded-[16px] border-[4px] border-[#F6F8D5] 
+            <div className='flex flex-col rounded-[16px] border-[4px] border-[#F6F8D5] 
                 border-solid w-[750px]'
             >
                 <div className='bg-[#205781] min-h-[200px] rounded-t-[12px] py-3 px-4'>
@@ -136,7 +134,7 @@ const Lesson = ({ data }) => {
             <Modal
                 title={data.title}
                 open={isModalOpen}
-                onCancel={() => setIsModalOpen(false)}
+                closable={false}
                 centered
                 width={450}
                 footer={
