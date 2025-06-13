@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import bgQuest from '../../../assets/bg-quest.png'
 import BadgesValidation from '../../../components/BadgesValidation';
 import arrow from '../../../assets/arrow-pixel.png'
-import Menu from '../../../components/Menu';
 import petGriffin from '../../../assets/petGriffin.png';
 import petDragon from '../../../assets/petDragon.png';
 import petHydra from '../../../assets/petHydra.png';
@@ -23,6 +22,8 @@ const Quiz = ({ data }) => {
     const [isWrongModalOpen, setIsWrongModalOpen] = useState(false);
     const [allAnswer, setAllAnswer] = useState({})
     const navigate = useNavigate()
+    const [timeLeft, setTimeLeft] = useState(30);
+    const [timerActive, setTimerActive] = useState(true);
 
     const getUserById = async () => {
         try {
@@ -43,6 +44,7 @@ const Quiz = ({ data }) => {
     }
 
     const handleFinish = async () => {
+        setTimerActive(false); // ⏹ Stop timer
         if (allAnswer.answerOne === data.contents[0].correctAnswer
             && allAnswer.answerTwo === data.contents[1].correctAnswer
             && allAnswer.answerThree === data.contents[2].correctAnswer) {
@@ -64,12 +66,13 @@ const Quiz = ({ data }) => {
             const argument5 = data.title === 'All About Components (Lesson)'
             const nextQuest = argument1 ? 'The Foundation of React (Quiz)' : argument2 ? 'JSX (Lesson)' : argument3 ? 'JSX (Quiz)' : argument4 ? 'All About Components (Lesson)' : argument5 ? 'All About Components (Quiz)' : null
             const newQuest = userDetail?.unlockedQuest.includes(nextQuest) ? userDetail?.unlockedQuest : [...userDetail?.unlockedQuest, nextQuest]
+            const bonusPoints = timeLeft > 0 ? 100 : 0;
             await setDoc(doc(db, "users", id), {
                 ...userDetail,
                 thropy: newThropy,
                 badges: newBadges,
                 exp: userDetail.exp + data.exp,
-                points: userDetail.points + data.points,
+                points: userDetail.points + data.points + bonusPoints,
                 unlockedQuest: newQuest,
             })
         } catch (err) {
@@ -80,8 +83,7 @@ const Quiz = ({ data }) => {
             navigate('/quest')
         }
     }
-    // console.log(userDetail)
-    console.log(data.title)
+
     const handleProgressLoss = async () => {
         try {
             setIsSubmitLoading(true)
@@ -99,33 +101,53 @@ const Quiz = ({ data }) => {
     }
 
     useEffect(() => {
-        getUserById()
-    }, [])
+        getUserById();
+    }, []);
+
+    useEffect(() => {
+        let timer;
+
+        if (timerActive && !isCorrectModalOpen && !isWrongModalOpen) {
+            timer = setInterval(() => {
+                setTimeLeft(prev => {
+                    if (prev > 0) return prev - 1;
+                    clearInterval(timer);
+                    return 0;
+                });
+            }, 1000);
+        }
+
+        return () => clearInterval(timer);
+    }, [timerActive, isCorrectModalOpen, isWrongModalOpen]);
 
     return (
         <div
-            className="h-screen bg-cover bg-center flex flex-col items-center"
+            className="h-screen bg-cover bg-center flex flex-col items-center justify-center"
             style={{ backgroundImage: `url(${bgQuest})` }}
         >
-            <Menu />
-            <div className='flex flex-col my-20 py-5 px-6 rounded-[16px] text-[#F6F8D5]
+            <div className='flex flex-col py-5 px-6 rounded-[16px] text-[#F6F8D5]
                 border-[4px] border-[#F6F8D5] border-solid w-[650px] bg-[#205781]
-                gap-6'
+                gap-4'
             >
-                <div className='w-full flex justify-between items-center text-[14px] font-semibold'>
+                <div className='w-full flex justify-between text-[14px] font-semibold'>
                     <h1>{data.title}</h1>
-                    <div className='flex gap-1 items-center'>
-                        <p>Reward:</p>
-                        <p className='text-[14px] text-[#efff94]'>{data.points} pt</p>
-                        <p>|</p>
-                        <p className='text-[14px] text-[#efff94]'>{data.exp} exp</p>
-                        <p>|</p>
-                        <BadgesValidation data={data.badges} />
-                        <p>|</p>
-                        <ThropyValidation data={data.thropy} />
+                    <div className='flex flex-col gap-2'>
+                        <div className='flex gap-1 items-center'>
+                            <p>Reward:</p>
+                            <p className='text-[14px] text-[#efff94]'>{data.points} pt</p>
+                            <p>|</p>
+                            <p className='text-[14px] text-[#efff94]'>{data.exp} exp</p>
+                            <p>|</p>
+                            <BadgesValidation data={data.badges} />
+                            <p>|</p>
+                            <ThropyValidation data={data.thropy} />
+                        </div>
+                        <p className='text-right text-sm text-yellow-200 font-semibold'>
+                            ⏰ Time left: {timeLeft}s
+                        </p>
                     </div>
                 </div>
-                <h1 className='text-[28px] font-semibold w-full text-center'>{data.contents[contentIndex].question}</h1>
+                <h1 className='text-[26px] font-semibold w-full text-center mb-3'>{data.contents[contentIndex].question}</h1>
                 <div className='flex justify-between items-center'>
                     <div className='relative'>
                         <AvatarValidation data={userDetail?.activeAvatar} className={'w-[230px] h-fit'} />
@@ -183,7 +205,7 @@ const Quiz = ({ data }) => {
             <Modal
                 title={data.title}
                 open={isCorrectModalOpen}
-                onCancel={() => setIsCorrectModalOpen(false)}
+                closable={false}
                 centered
                 width={450}
                 footer={
@@ -220,12 +242,14 @@ const Quiz = ({ data }) => {
                             </div>
                         </div>
                     </div>
+                    {timeLeft > 0 && <p className="font-semibold">💥 Bonus: +100 points for quick finish!</p>}
+                    {timeLeft === 0 && <p className="font-semibold">🎯 Goals: Try to beat the clock for extra rewards!</p>}
                 </div>
             </Modal>
             <Modal
                 title={data.title}
                 open={isWrongModalOpen}
-                onCancel={() => setIsWrongModalOpen(false)}
+                closable={false}
                 centered
                 width={450}
                 footer={
@@ -240,4 +264,4 @@ const Quiz = ({ data }) => {
     )
 }
 
-export default Quiz
+export default Quiz;
