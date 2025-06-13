@@ -1,16 +1,25 @@
 import { Button, Form, Input, Modal } from 'antd'
 import bgAuth from '../../assets/bg-auth.jpg'
 import { useNavigate } from 'react-router-dom'
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from '../../config/firestore'
 import { useEffect, useState } from 'react';
 
 const Register = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+    const [userData, setUserData] = useState([])
     const navigate = useNavigate()
 
     const handleRegister = async (values) => {
+        const isDuplicate = userData.some(user =>
+            user.username === values.username || user.password === values.password
+        )
+        if (isDuplicate) {
+            setIsErrorModalOpen(true)
+            return
+        }
         try {
             setIsLoading(true)
             await addDoc(collection(db, "users"), {
@@ -34,10 +43,23 @@ const Register = () => {
         }
     }
 
-    useEffect(() => {
+    const getUserData = async () => {
+        try {
+            setIsLoading(true)
+            const querySnapshot = await getDocs(collection(db, "users"))
+            const datas = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+            setUserData(datas)
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
+    useEffect(() => {
+        getUserData()
     }, [])
-    
+
     return (
         <div
             className='h-screen bg-cover bg-center flex flex-col justify-center items-center'
@@ -144,6 +166,16 @@ const Register = () => {
                 width={450}
             >
                 <p>You have registered successfully!</p>
+            </Modal>
+            <Modal
+                title={<p>Registration Failed ❌</p>}
+                open={isErrorModalOpen}
+                onOk={() => setIsErrorModalOpen(false)}
+                onCancel={() => setIsErrorModalOpen(false)}
+                centered
+                width={450}
+            >
+                <p>Username or password already exists. Choose another one 😔</p>
             </Modal>
         </div>
     )
