@@ -76,19 +76,19 @@ const ShopList = () => {
     
     return (
         <div className="my-8 flex items-center text-[#ffe6cd]">
-            <div className="bg-[#6F4E37] min-w-[992px] rounded-[12px] flex flex-col 
-            gap-4 w-full pt-6 pb-8 px-8 border-[2px] border-[#FED8B1]
+            <div className="bg-[#6F4E37] rounded-[12px] flex flex-col 
+            gap-2 w-full pt-4 pb-6 px-6 border-[2px] border-[#FED8B1]
             ">
                 <div className="flex justify-between items-center">
                     <h1 className="text-[32px] font-medium">Avatar Shop</h1>
-                    <p className="text-[18px] font-medium bg-[#966e50] py-1 px-3 rounded-[4px]">{userDetail?.points} Points</p>
+                    <p className="text-[18px] font-medium bg-[#966e50] px-2 rounded-[4px]">{userDetail?.points} Points</p>
                 </div>
                 <div className='w-full flex justify-center'>
-                    {isLoading ? <span className="loader mt-8"></span> : null}
+                    {isLoading ? <span className="loader mt-6"></span> : null}
                 </div>
-                <ul className="grid grid-cols-3 gap-3">
+                <ul className="grid grid-cols-2 gap-3 h-[450px] overflow-y-auto scrollbar-minimal pr-2">
                     {avatarList?.map((avatar, i) => (
-                        <li key={i} className="bg-[#A67B5B] w-[300px] rounded-[6px] py-2 pr-4 flex justify-center border-[2px] border-[#FED8B1]">
+                        <li key={i} className="bg-[#A67B5B] w-[300px] rounded-[6px] py-1 pr-4 flex justify-center border-[2px] border-[#FED8B1]">
                             <AvatarValidation className='w-[150px]' data={avatar.img} />
                             <div className='flex flex-col justify-evenly'>
                                 <div>

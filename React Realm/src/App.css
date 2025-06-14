@@ -32,3 +32,23 @@
 .custom-form-gap .ant-form-item {
   margin-bottom: 10px; 
 }
+
+/* Add this to styles.css or in a <style> tag */
+.scrollbar-minimal {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #aaa transparent; /* Firefox */
+}
+
+.scrollbar-minimal::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-minimal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-minimal::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 3px;
+}
