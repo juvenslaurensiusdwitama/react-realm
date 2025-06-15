@@ -131,7 +131,7 @@ const Quiz = ({ data }) => {
             >
                 <div className='w-full flex justify-between text-[14px] font-semibold'>
                     <h1>{data.title}</h1>
-                    <div className='flex flex-col gap-2'>
+                    <div className='flex flex-col gap-2 items-end'>
                         <div className='flex gap-1 items-center'>
                             <p>Reward:</p>
                             <p className='text-[14px] text-[#efff94]'>{data.points} pt</p>
@@ -142,9 +142,13 @@ const Quiz = ({ data }) => {
                             <p>|</p>
                             <ThropyValidation data={data.thropy} />
                         </div>
+                        {timeLeft === 0 ?
                         <p className='text-right text-sm text-yellow-200 font-semibold'>
-                            ⏰ Time left: {timeLeft}s
+                            🚨 Time's up! No bonus points awarded.
                         </p>
+                        : <p className='text-right text-sm text-yellow-200 font-semibold'>
+                            ⏰ Time left: {timeLeft}s
+                        </p>}
                     </div>
                 </div>
                 <h1 className='text-[26px] font-semibold w-full text-center mb-3'>{data.contents[contentIndex].question}</h1>
