@@ -154,7 +154,7 @@ const Quiz = ({ data }) => {
                 <h1 className='text-[26px] font-semibold w-full text-center mb-3'>{data.contents[contentIndex].question}</h1>
                 <div className='flex justify-between items-center'>
                     <div className='relative'>
-                        <AvatarValidation data={userDetail?.activeAvatar} className={'w-[230px] h-fit'} />
+                        <AvatarValidation data={userDetail?.activeAvatar} className={'w-[230px]'} />
                         {userDetail?.pet &&
                             <img src={
                                 userDetail?.pet === 'griffin' ? petGriffin
