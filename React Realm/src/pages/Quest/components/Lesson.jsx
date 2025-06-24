@@ -28,6 +28,19 @@ const Lesson = ({ data }) => {
     const [userDetail, setUserDetail] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
+    const imageMap = {
+        reactAnimated,
+        virtualDOM,
+        propsDrill,
+        jsx1,
+        jsx2,
+        jsx3,
+        jsx4,
+        components1,
+        components2,
+        components3,
+        components4
+    }
 
     const getUserById = async () => {
         try {
@@ -70,7 +83,7 @@ const Lesson = ({ data }) => {
     useEffect(() => {
         getUserById()
     }, [])
-    
+
     return (
         <div
             className="h-screen bg-cover bg-center flex flex-col items-center justify-center"
@@ -90,17 +103,7 @@ const Lesson = ({ data }) => {
                         </div>
                     </div>
                     <div className='flex flex-col items-center justify-center h-full pb-4'>
-                        <ImageValidation src={data.imgContents[contentIndex] === "reactAnimated" ? reactAnimated : null} className='w-[250px]'/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "virtualDOM" ? virtualDOM : null} />
-                        <ImageValidation src={data.imgContents[contentIndex] === "propsDrill" ? propsDrill : null} className=''/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "jsx1" ? jsx1 : null} className=''/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "jsx2" ? jsx2 : null} className=''/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "jsx3" ? jsx3 : null} className=''/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "jsx4" ? jsx4 : null} className=''/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "components1" ? components1 : null} className=''/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "components2" ? components2 : null} className=''/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "components3" ? components3 : null} className=''/>
-                        <ImageValidation src={data.imgContents[contentIndex] === "components4" ? components4 : null} className=''/>
+                        <ImageValidation src={imageMap[data.imgContents[contentIndex]]} className='max-h-[300px]'/>
                     </div>
                 </div>
                 <div className='flex bg-[#4F959D] 
