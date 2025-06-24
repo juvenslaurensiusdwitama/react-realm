@@ -115,8 +115,8 @@ const Home = () => {
             style={{ backgroundImage: `url(${bgHome})` }}
         >
             <Menu />
-            <div className='my-8 bg-slate-900/80 backdrop-blur-xs 
-                text-white p-6 flex flex-col gap-2 min-h-[400px] min-w-[450px]'>
+            <div className='bg-slate-900/80 backdrop-blur-xs 
+                text-white p-4 flex flex-col gap-2 min-h-[400px] min-w-[450px]'>
                 {isLoading ?
                     <div className='h-full w-full flex items-center justify-center'>
                         <span className="loader"></span>
@@ -124,7 +124,7 @@ const Home = () => {
                     :
                     <>
                         <div className='flex justify-between items-start'>
-                            <div className='min-w-[376px] flex flex-col bg-slate-500/40 py-2 px-4'>
+                            <div className='min-w-[380px] flex flex-col bg-slate-500/40 py-2 px-4'>
                                 <h1 className='text-[16px] font-semibold'>{userDetail?.username}</h1>
                                 <div className='flex justify-between text-[14px]'>
                                     <p>Level {level}</p>
@@ -188,7 +188,7 @@ const Home = () => {
                                             className={`${isSelected ? 'bg-slate-400/50' : 'bg-slate-500/40 cursor-pointer hover:opacity-[0.6]'}`}
                                             onClick={() => !isSelected && setSelectedAvatar(avatar)}
                                         >
-                                            <AvatarValidation className='w-[120px] p-1' data={avatar} />
+                                            <AvatarValidation className='w-[100px] p-1' data={avatar} />
                                         </div>
                                     );
                                 })}

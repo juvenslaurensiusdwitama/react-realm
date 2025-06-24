@@ -75,13 +75,13 @@ const ShopList = () => {
     }, [])
     
     return (
-        <div className="my-8 flex items-center text-[#ffe6cd]">
+        <div className="flex items-center text-[#ffe6cd]">
             <div className="bg-[#6F4E37] rounded-[12px] flex flex-col 
-            gap-2 w-full pt-4 pb-6 px-6 border-[2px] border-[#FED8B1]
+            gap-2 w-full pt-3 pb-5 pl-5 pr-4 border-[2px] border-[#FED8B1]
             ">
                 <div className="flex justify-between items-center">
-                    <h1 className="text-[32px] font-medium">Avatar Shop</h1>
-                    <p className="text-[18px] font-medium bg-[#966e50] px-2 rounded-[4px]">{userDetail?.points} Points</p>
+                    <h1 className="text-[28px] font-medium">Avatar Shop</h1>
+                    <p className="text-[18px] font-medium bg-[#966e50] px-2 mr-4 rounded-[4px]">{userDetail?.points} Points</p>
                 </div>
                 <div className='w-full flex justify-center'>
                     {isLoading ? <span className="loader mt-6"></span> : null}
